@@ -7,14 +7,15 @@
 						http://www.springframework.org/schema/context 
 						http://www.springframework.org/schema/context/spring-context.xsd">
 	
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="placeholderPrefix" value="ORION{" />
+		<property name="placeholderSuffix" value="}" />
 		<property name="locations">
 			<list>
-				<value>classpath:datasource.properties</value>
+				<value>classpath*:orionclient.cfg</value>
 			</list>
 		</property>
-		<property name="ignoreUnresolvablePlaceholders" value="true"/>
 	</bean>
-
+	
 </beans>
