@@ -1,5 +1,7 @@
 package eu.atos.xifi.sla.monitoring;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,13 +37,19 @@ public class OrionMetricsRetriever implements IMetricsRetrieverV2 {
 	private String username = null;
 	@Value("ORION{password}")
 	private String password = null;
+	@Value("ORION{secret_token}")
+	private String secret_token = null;
+	@Value("ORION{secret_key}")
+	private String secret_key = null;
 	
 	static com.synelixis.xifi.AuthWebClient.IMetricsRetriever metricRetriever = null;
+	//Format date for the measures.
+	static private String DateFormat ="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	public void init(){
 		if (metricRetriever==null){
-			logger.info("Configuring client with [fm_url: "+fm_url+", token_url: "+token_url+", username: "+username+", password: "+password+"]");
-			metricRetriever = new Client(fm_url, token_url, username, password);
+			logger.info("Configuring client with [fm_url: "+fm_url+", token_url: "+token_url+", username: "+username+", password: "+password+", secret_token: "+ secret_token +", secret_key: "+secret_key+"]");
+			metricRetriever = new Client(fm_url, token_url, username, password, secret_token, secret_key);
 		}
 
 	}
@@ -138,12 +146,14 @@ public class OrionMetricsRetriever implements IMetricsRetrieverV2 {
 			logger.info("Requesting monitoring information for type: "+typeAndLocation[0]+ " and location:"+typeAndLocation[1]);
 			
 			if ("vm".equals(typeAndLocation[0])){
-				//metricRetriever.getVM(regionId_, vmId_)	
+				String []regionAndVm = typeAndLocation[1].split(":");
+				jsonobjectFromMonitor = metricRetriever.getVM(regionAndVm[0],regionAndVm[1], null);
+				logger.info("Received object for the Vm metrics: "+jsonobjectFromMonitor);
 			}
 			if ("host".equals(typeAndLocation[0])){
 				String []regionAndNode = typeAndLocation[1].split(":");
-		        jsonobjectFromMonitor = metricRetriever.getHost(regionAndNode[0],regionAndNode[1], null);
-				logger.info("Received object : "+jsonobjectFromMonitor);
+		        	jsonobjectFromMonitor = metricRetriever.getHost(regionAndNode[0],regionAndNode[1], null);
+				logger.info("Received object for the Host metrics : "+jsonobjectFromMonitor);
 			}
 		}else{
 			logger.info("The service serviceName should have a format like typeOfResource|nameOfResource and what we're receiving is:"+serviceName+". Nothing can be done with this." );
@@ -175,19 +185,26 @@ public class OrionMetricsRetriever implements IMetricsRetrieverV2 {
 	private OrionMonitoringMetric parseOrionMetric(JSONObject jsonobjectFromMonitor, String variable){
 		OrionMonitoringMetric result = null;
 		if (jsonobjectFromMonitor!=null){
-	        JSONArray measuresArray = (JSONArray)jsonobjectFromMonitor.get("measures");
-	        JSONObject  measures = (JSONObject )measuresArray.get(0);
-	        Date timestamp = null;
-            String value =  (String)measures.get("timestamp");
-        	timestamp = new Date(Long.valueOf(value));
-            JSONObject measure = (JSONObject)measures.get(variable);
-            if (measure!=null){
-	            Object measureValue =  measure.get("value");
-    			logger.info("measure "+variable+" with value: "+measureValue+ " will be added" );
-	            result = new OrionMonitoringMetric(variable, measureValue.toString(), timestamp);
-            }else{
-            	logger.info("measure "+variable+" is null" );
-            }
+		        JSONArray measuresArray = (JSONArray)jsonobjectFromMonitor.get("measures");
+		        JSONObject  measures = (JSONObject )measuresArray.get(0);
+		        Date timestamp = null;
+	            	String value =  (String)measures.get("timestamp");
+	            	//the timestamp  will maintain always this format "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+	            	SimpleDateFormat dateFormat = new SimpleDateFormat(OrionMetricsRetriever.DateFormat);
+		        try {
+	            	    timestamp = dateFormat.parse(value);
+	    		} catch (ParseException e) {
+	    		    logger.error("ERROR during the parse data for the measure: "+e.getMessage());
+	    		    //TODO include a new specific Exceptions for the errors related with the Personalizations.
+	    		} 
+	        	JSONObject measure = (JSONObject)measures.get(variable);
+	            	if (measure!=null){
+		            Object measureValue =  measure.get("value");
+	    			logger.info("measure "+variable+" with value: "+measureValue+ " will be added" );
+		            result = new OrionMonitoringMetric(variable, measureValue.toString(), timestamp);
+	            	}else{
+	            	    logger.info("measure "+variable+" is null" );
+	            	}
 		}
 		return result;
 	}

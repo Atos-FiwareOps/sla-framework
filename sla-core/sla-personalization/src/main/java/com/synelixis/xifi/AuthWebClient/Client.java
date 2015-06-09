@@ -23,6 +23,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  *
  * @author panos
@@ -41,8 +43,8 @@ public class Client implements IMetricsRetriever {
     }
 
     // metthod created by ATOS
-    public Client(String fm_url, String token_url, String username, String password) {
-        this.token = new AToken(this, token_url, username, password);
+    public Client(String fm_url, String token_url, String username, String password, String secret_token, String secret_key) {
+        this.token = new AToken(this, token_url, username, password, secret_token, secret_key);
         this.fm_url = fm_url;
     }
     
@@ -59,18 +61,34 @@ public class Client implements IMetricsRetriever {
             return;
         }
     }
-
-    public String postURL(String url_, String data_) {
+    
+   public String postURLWithCredentials(String url_, String data_, String credentials_) {
+    	return postURL(url_, data_, credentials_);
+    	
+    }
+    
+    public String postURLWithOutCredentials(String url_, String data_) {
+    	return postURL(url_, data_, null);
+    	
+    }
+    
+    private String postURL(String url_, String data_, String credentials_) {
         String urlString = url_;
         String JSON = data_;
+        String credentials = credentials_;
         
         try {
             URL u = new URL(urlString);
             HttpURLConnection c = (HttpURLConnection) u.openConnection();
             c.setDoOutput(true);
             c.setRequestMethod("POST");
-            c.setRequestProperty("Content-Type", "application/json");
-            c.setRequestProperty("Accept", "application/json");
+            if ((credentials != null) && !credentials.equals("")){
+            	c.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            	c.setRequestProperty("Authorization", "Basic "+credentials);
+            }else{
+            	c.setRequestProperty("Content-Type", "application/json");
+                c.setRequestProperty("Accept", "application/json");
+            }
             c.setUseCaches(false);
             c.setAllowUserInteraction(false);
             OutputStreamWriter out = new OutputStreamWriter(c.getOutputStream());
@@ -95,6 +113,8 @@ public class Client implements IMetricsRetriever {
             Logger.getLogger(com.synelixis.xifi.AuthWebClient.Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(com.synelixis.xifi.AuthWebClient.Client.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(com.synelixis.xifi.AuthWebClient.Client.class.getName()).log(Level.SEVERE,  "Unexpected exception when call the remote server ", ex);
         }
         return null;
     }
@@ -109,9 +129,11 @@ public class Client implements IMetricsRetriever {
             c.setRequestMethod("GET");
 
             //add request header
-            c.setRequestProperty("User-Agent", "Mozilla/5.0");
-            c.setRequestProperty("Content-Type", "application/json");
-            c.setRequestProperty("X-Auth-Token", token_);
+            //c.setRequestProperty("User-Agent", "Mozilla/5.0");
+            //c.setRequestProperty("Content-Type", "application/json");
+            //c.setRequestProperty("X-Auth-Token", token_);
+            c.setRequestProperty("Authorization", "Bearer " + new String(Base64.encodeBase64(token_.getBytes())));
+            c.setRequestProperty("accept", "application/json");
             c.setConnectTimeout(50000);
             int responseCode = c.getResponseCode();
 
@@ -174,8 +196,11 @@ public class Client implements IMetricsRetriever {
         return parseJson(this.getURL(this.fm_url+"/monitoring/regions/" + regionId_ + "/vms", this.token.getToken()));
     }
 
-    public JSONObject getVM(String regionId_, String vmId_) {
-        return parseJson(this.getURL(this.fm_url+"/monitoring/regions/" + regionId_ + "/vms/" + vmId_, this.token.getToken()));
+   public JSONObject getVM(String regionId_, String vmId_, Date date) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM");
+    	String url = this.fm_url+"/monitoring/regions/" + regionId_ + "/vms/" + vmId_;
+    	if (date!=null) url += "?since="+dateFormat.format(date);
+        return parseJson(this.getURL(url, this.token.getToken()));
     }
 
     public JSONObject getHostServices(String regionId_, String hostId_) {

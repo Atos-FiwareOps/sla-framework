@@ -14,5 +14,6 @@ function get_var() {
 DB=$(get_var "db.name")
 USER=$(get_var "db.username")
 PWD=$(get_var "db.password")
-echo "Cleaning database: DB='$DB' USER='$USER'"
-mysql -p"$PWD" -u "$USER" "$DB" < sla-repository/src/main/resources/sql/atossla.sql
+HOST=$(get_var "db.host")
+echo "Cleaning database: DB='$DB' USER='$USER' HOST='$HOST'"
+mysql -p"$PWD" -u "$USER" -h "$HOST" "$DB" < sla-repository/src/main/resources/sql/atossla.sql

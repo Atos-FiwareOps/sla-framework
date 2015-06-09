@@ -20,6 +20,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  *
  * @author panos
@@ -27,7 +29,8 @@ import org.json.simple.parser.ParseException;
 public class AToken {
 
     protected String resp = "";
-    protected String token_expires = null;
+    //protected String token_expires = null;
+    protected Date token_expires = null;
     protected String token_id = null;
     protected User user = null;
     protected Client clnt = null;
@@ -35,6 +38,8 @@ public class AToken {
     protected String token_url = null;
     protected String username = null;
     protected String password = null;
+    protected String secret_token = null;
+    protected String secret_key = null;
     
     public static void main(String[] args) {
         new AToken();
@@ -53,6 +58,9 @@ public class AToken {
             this.token_url = (prop.getProperty("token_url") == null) ? "" : prop.getProperty("token_url");
             this.username = (prop.getProperty("username") == null) ? "" : prop.getProperty("username");
             this.password = (prop.getProperty("password") == null) ? "" : prop.getProperty("password");
+            this.secret_token = (prop.getProperty("secret_token") == null) ? "" : prop.getProperty("secret_token");
+            this.secret_key = (prop.getProperty("secret_key") == null) ? "" : prop.getProperty("secret_key");
+
             
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,12 +69,14 @@ public class AToken {
     }
 
     // metthod created by ATOS    
-    public AToken(Client clnt_, String token_url, String username, String password) {
+    public AToken(Client clnt_, String token_url, String username, String password, String secret_token, String secret_key) {
         this.clnt = clnt_;
         
         this.token_url = (token_url == null) ? "" : token_url;
         this.username = (username == null) ? "" : username;
         this.password = (password == null) ? "" : password;
+        this.secret_token = (secret_token == null) ? "" : secret_token;
+        this.secret_key = (secret_key == null) ? "" : secret_key;
     }
     
     public String getToken() {
@@ -81,16 +91,18 @@ public class AToken {
             if (this.token_id == null) {
                 return false;
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date tokenExp = formatter.parse(this.token_expires);
+            //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            //Date tokenExp = formatter.parse(this.token_expires);
+            Date tokenExp = this.token_expires;
             Date curDate = this.getGMTime();
             Long diff = tokenExp.getTime() - curDate.getTime();
-            if (diff / 3600000 < 1) {
+            if (diff / 600000 < 1) {
                 return false;
             } else {
                 return true;
             }
-        } catch (java.text.ParseException ex) {
+        //} catch (java.text.ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AToken.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -98,7 +110,9 @@ public class AToken {
 
     private void updateToken() {
         
-        String resp = this.clnt.postURL(this.token_url, "{\"auth\": {\"passwordCredentials\": {\"username\":\""+this.username+"\", \"password\":\""+this.password+"\"}}}");
+       //String resp = this.clnt.postURL(this.token_url, "{\"auth\": {\"passwordCredentials\": {\"username\":\""+this.username+"\", \"password\":\""+this.password+"\"}}}");
+    	String credential = new String(Base64.encodeBase64((this.secret_token + ":" + this.secret_key).getBytes()));
+      	String resp = this.clnt.postURLWithCredentials(this.token_url, "grant_type=password&username="+this.username+"&password="+this.password, credential);
         
         JSONObject json = null;
         try {
@@ -106,19 +120,22 @@ public class AToken {
         } catch (ParseException ex) {
             Logger.getLogger(AToken.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JSONObject access = (JSONObject) json.get("access");
-        if (access != null) {
-            JSONObject token = (JSONObject) access.get("token");
-            if (token != null) {
-                this.token_id = token.get("id").toString();
-                this.token_expires = token.get("expires").toString();
-            }
-            JSONObject user = (JSONObject) access.get("user");
-            if (user != null) {
-                this.user = new User(user.get("name").toString(), user.get("id").toString(), user.get("username").toString());
-            }
-            
-        }
+        
+	if (json != null) {
+		this.token_id = json.get("access_token").toString();
+		int expiresIn =0;
+		try {
+		      	expiresIn= Integer.valueOf((json.get("expires_in").toString())).intValue();
+		} catch (Exception e) {
+			Logger.getLogger(AToken.class.getName()).log(Level.WARNING, "Error to convert the expiresIn attribute ", e);
+		}
+		Calendar cl = Calendar.getInstance();
+		cl.setTime(this.getGMTime());
+		cl.add(Calendar.SECOND, expiresIn);
+		this.token_expires = cl.getTime();
+	}
+          
+        
         return;
     }
 

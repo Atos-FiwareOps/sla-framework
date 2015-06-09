@@ -21,8 +21,11 @@ public class FMonitor {
 
    		String username = "elena.garrido@atos.net";
 		String password = "hola02";
+		String secret_token = "767";
+		String secret_key = "d8266ec1300898f60025bb08cbd701b40faf3f767ab64c1c6e703315ee42bfe416bbed90168c2c803f91e29a9dcaf06e52924f9fbb69547ce69bf22762022d4e";
+		 
 
-        IMetricsRetriever metricRetriever = new Client(fm_url, token_url, username, password);
+        IMetricsRetriever metricRetriever = new Client(fm_url, token_url, username, password, secret_token, secret_key);
 
         //List All Regions
         System.out.println("GET all federetion Regions");
@@ -81,7 +84,7 @@ public class FMonitor {
         
         //Retrieve a vm.
         System.out.println("Retrieve a vm");
-        System.out.println(metricRetriever.getVM("Trento","ac79158d-8387-4304-a771-319f4f5b22ac")+"\n");
+        System.out.println(metricRetriever.getVM("Trento","ac79158d-8387-4304-a771-319f4f5b22ac", null)+"\n");
         
         //Retrieve all Services running on a given host..
         System.out.println("Retrieve all Services running on a given host.");

@@ -28,7 +28,8 @@ public interface IMetricsRetriever {
     
     public JSONObject getVMs(String regionId_);
     
-    public JSONObject getVM(String regionId_, String vmId_);
+    //public JSONObject getVM(String regionId_, String vmId_);
+    public JSONObject getVM(String regionId_, String vmId_,  Date date);
     
     public JSONObject getHostServices(String regionId_, String hostId_);    
     
