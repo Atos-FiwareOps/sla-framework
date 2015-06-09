@@ -1,11 +1,9 @@
 ##to copy the sla-service.war to the tomcat directory
 ##if the path doesn't exist, it will be created
-#tomcat.directory = C:/AtosSLA/installed/apache-tomcat-7.0.52/webapps
 tomcat.directory = {sla_tomcat_directory}
 
 ##to configure the access to the database
 db.username = atossla
-#db.password = _atossla_
 db.password = {sla_db_password}
 db.name = atossla
 db.host = {sla_db_host}
@@ -15,10 +13,8 @@ db.showSQL = true
 ##for eu.atos.sla a different file is generated. it will be generated at  log.slaatos.fullpathFilename
 ##another file with all the logs, hibernate, spring, etc, is generated at log.thirdpartysw.fullpathFilename
 ##the location of this file must be specified here
-#log.slaatos.fullpathFilename = c:/log/atosSLAfile.log
 log.slaatos.fullpathFilename = {sla_log_slaatos_fullpathFilename}
 log.slaatos.debugLevel = ALL
-#log.thirdpartysw.fullpathFilename = c:/log/atosSLAfullfile.log
 log.thirdpartysw.fullpathFilename = {sla_log_thirdpartysw_fullpathFilename}
 log.thirdpartysw.debugLevel = INFO
 
@@ -35,7 +31,6 @@ enforcement.notification.class = eu.atos.sla.notification.DummyEnforcementNotifi
 ##configure user and password to access to the rest services
 ##basic security is used
 service.basicsecurity.user = user
-#service.basicsecurity.password = password
 service.basicsecurity.password = {sla_service_basicsecurity_password}
 
 
