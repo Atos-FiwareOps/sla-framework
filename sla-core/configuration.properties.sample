@@ -16,10 +16,10 @@ db.showSQL = true
 ##another file with all the logs, hibernate, spring, etc, is generated at log.thirdpartysw.fullpathFilename
 ##the location of this file must be specified here
 #log.slaatos.fullpathFilename = c:/log/atosSLAfile.log
-log.slaatos.fullpathFilename = {log_slaatos_fullpathFilename}
+log.slaatos.fullpathFilename = {sla_log_slaatos_fullpathFilename}
 log.slaatos.debugLevel = ALL
 #log.thirdpartysw.fullpathFilename = c:/log/atosSLAfullfile.log
-log.thirdpartysw.fullpathFilename = {log_thirdpartysw_fullpathFilename}
+log.thirdpartysw.fullpathFilename = {sla_log_thirdpartysw_fullpathFilename}
 log.thirdpartysw.debugLevel = INFO
 
 #sla-enforcement
