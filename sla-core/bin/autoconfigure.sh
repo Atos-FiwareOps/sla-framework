@@ -1,9 +1,6 @@
 #!/bin/bash
 
-if [ ! -f configuration.properties ]
-then
-	cp configuration.properties.sample configuration.properties
-fi
+cp configuration.properties.sample configuration.properties
 
 sed 's/{sla_tomcat_directory/'$sla_tomcat_directory'/g' configuration.properties -i
 sed 's/{sla_db_password}/'$sla_db_password'/g' configuration.properties -i
