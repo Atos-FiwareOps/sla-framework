@@ -27,7 +27,7 @@ debug() {
 
 function curl_cmd() {
 	[[ -n $DEBUG ]] && set -o xtrace
-	curl -u user:password "$@"
+	curl -u $user:$password "$@"
 	code=$?
 	[[ -n $DEBUG ]] && set +o xtrace
 	
@@ -121,14 +121,14 @@ exit
 #
 echo; echo \#Add agreement04
 #
-curl -u user:password -H "Content-type: application/xml" -d@samples/agreement04.xml $SLA_MANAGER_URL/agreements -X POST
-curl -u user:password -d@samples/enforcement04.xml -H "Content-type: application/xml" $SLA_MANAGER_URL/enforcements -X POST
-curl -u user:password $SLA_MANAGER_URL/enforcements/agreement04/start -X PUT
+curl -u $user:$password -H "Content-type: application/xml" -d@samples/agreement04.xml $SLA_MANAGER_URL/agreements -X POST
+curl -u $user:$password -d@samples/enforcement04.xml -H "Content-type: application/xml" $SLA_MANAGER_URL/enforcements -X POST
+curl -u $user:$password $SLA_MANAGER_URL/enforcements/agreement04/start -X PUT
 
 #
 echo; echo \#Add agreement05
 #
-curl -u user:password -H "Content-type: application/xml" -d@samples/agreement05.xml $SLA_MANAGER_URL/agreements -X POST
-curl -u user:password -d@samples/enforcement05.xml -H "Content-type: application/xml" $SLA_MANAGER_URL/enforcements -X POST
-#curl -u user:password $SLA_MANAGER_URL/enforcements/agreement05/start -X PUT
+curl -u $user:$password -H "Content-type: application/xml" -d@samples/agreement05.xml $SLA_MANAGER_URL/agreements -X POST
+curl -u $user:$password -d@samples/enforcement05.xml -H "Content-type: application/xml" $SLA_MANAGER_URL/enforcements -X POST
+#curl -u $user:$password $SLA_MANAGER_URL/enforcements/agreement05/start -X PUT
 

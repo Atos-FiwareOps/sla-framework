@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -213,5 +215,18 @@ public class ModelConversionTest {
 				i++;
 			}
 		}
+	}
+	
+	@Test
+	public void testPolicyRegexp() {
+		String policy = "(1 breach, 12 hours)";
+		
+		Pattern p = Pattern.compile("^[(](\\d+) breach.* (\\d+) hour.*[)]$");
+		Matcher m = p.matcher(policy);
+		
+		assertTrue(m.matches());
+		assertEquals(m.groupCount(), 2);
+		assertEquals("1", m.group(1));
+		assertEquals("12", m.group(2));
 	}
 }

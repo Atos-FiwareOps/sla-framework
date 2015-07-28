@@ -3,11 +3,24 @@ package eu.atos.sla.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 
 
+
+
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+
+
+
+
+import net.sf.hibernate.mapping.Array;
 
 //import org.codehaus.jackson.JsonNode;
 //import org.codehaus.jackson.JsonProcessingException;
@@ -27,12 +40,14 @@ import eu.atos.sla.datamodel.IAgreement.Context.ServiceProvider;
 import eu.atos.sla.datamodel.ICompensation.IPenalty;
 import eu.atos.sla.datamodel.IEnforcementJob;
 import eu.atos.sla.datamodel.IGuaranteeTerm;
+import eu.atos.sla.datamodel.IPolicy;
 import eu.atos.sla.datamodel.IProvider;
 import eu.atos.sla.datamodel.IServiceProperties;
 import eu.atos.sla.datamodel.ITemplate;
 import eu.atos.sla.datamodel.IVariable;
 import eu.atos.sla.datamodel.IViolation;
 import eu.atos.sla.datamodel.bean.Agreement;
+import eu.atos.sla.datamodel.bean.Policy;
 import eu.atos.sla.datamodel.bean.Template;
 import eu.atos.sla.parser.ParserException;
 import eu.atos.sla.parser.data.EnforcementJob;
@@ -230,6 +245,7 @@ public class ModelConversion implements IModelConverter {
 						logger.debug("CustomServiceLevel not null"); 
 						ServiceLevelParser.Result parsedSlo = ServiceLevelParser.parse(csl);
 						guaranteeTerm.setServiceLevel(parsedSlo.getConstraint());
+						guaranteeTerm.setPolicies(parsedSlo.getPolicies());
 					}else{
 						logger.debug("CustomServiceLevel is null"); 
 					}
@@ -442,39 +458,90 @@ public class ModelConversion implements IModelConverter {
 
 	public static class ServiceLevelParser {
 
+		private static final long MSINHOUR = 60 * 60 * 1000;
+		
 		public static class Result {
 			String constraint;
+			List <IPolicy> policies = null;
 			
 			protected String getConstraint() {
 				return constraint;
 			}
+			
+			protected List <IPolicy> getPolicies() {
+				return policies;
+			}
 		}
 		
 		protected static Result parse(String serviceLevel) throws ModelConversionException {
-			ObjectMapper mapper = new ObjectMapper();
+			Result result = new Result();
 			
-			String constraint = null;
-			JsonNode rootNode = null;
-			try {
-				rootNode = mapper.readTree(serviceLevel);
-				JsonNode constraintNode = rootNode.path("constraint");
-				
-				constraint = textOrJson(constraintNode);
-
-				if (constraint==null) throw new ModelConversionException(serviceLevel+" didn't contain the constraint keyword");
-				Result result = new Result();
-				result.constraint = constraint;
-				
-				return result;
-			} catch (JsonProcessingException e) {
-				logger.error("Error parsing "+serviceLevel, e);
-				throw new ModelConversionException("Error parsing "+serviceLevel+ " message:"+ e.getMessage());
-			} catch (IOException e) {
-				logger.error("Error parsing "+serviceLevel, e);
-				throw new ModelConversionException("Error parsing "+serviceLevel+ " message:"+ e.getMessage());
+			result.constraint = parseConstraint(serviceLevel);
+			result.policies = parsePolicies(serviceLevel);
+			
+			return result;
+		}
+		
+		private static String parseConstraint(String serviceLevel)  throws ModelConversionException {
+			String constraint = getJsonValue(serviceLevel, "constraint");
+			
+			if (!fieldExists(constraint)) {
+				throw new ModelConversionException(serviceLevel+" didn't contain the constraint keyword");
 			}
+			
+			return constraint;
+		}
+		
+		private static List <IPolicy> parsePolicies (String serviceLevel) throws ModelConversionException {
+			List <IPolicy> policies = null;
+			IPolicy policy = null;
+			String nonParsedPolicy = null;
+			
+			nonParsedPolicy = getJsonValue(serviceLevel, "policy");
+				
+			if (fieldExists(nonParsedPolicy)) {
+				policy = new Policy();
+				
+				Pattern p = Pattern.compile("^[(](\\d+) breach.* (\\d+) hour.*[)]$");
+				Matcher m = p.matcher(nonParsedPolicy);
+				
+				int breachCount = Integer.parseInt(m.group(1));
+				long hourInterval = Long.parseLong(m.group(2));
+				
+				policy.setCount(breachCount);
+				policy.setTimeInterval(new Date(hourInterval * MSINHOUR));
+
+				policies = new ArrayList<IPolicy>();
+				policies.add(policy);
+			}
+
+			return policies;
+		}
+		
+		private static String getJsonValue(String json, String key) throws ModelConversionException {
+			ObjectMapper mapper = new ObjectMapper();
+			String value = null;
+			JsonNode rootNode = null;
+			
+			try {
+				rootNode = mapper.readTree(json);
+				JsonNode valueNode = rootNode.path(key);
+				value = textOrJson(valueNode);
+			} catch (JsonProcessingException e) {
+				logger.error("Error parsing "+json, e);
+				throw new ModelConversionException("Error parsing "+json+ " message:"+ e.getMessage());
+			} catch (IOException e) {
+				logger.error("Error parsing "+json, e);
+				throw new ModelConversionException("Error parsing "+json+ " message:"+ e.getMessage());
+			}
+			
+			return value;
 		}
 
+		private static boolean fieldExists(String parsedString) {
+			return parsedString != null;
+		}
+		
 		/**
 		 * Returns the text value of a node or its inner string representation.
 		 * 
