@@ -505,14 +505,18 @@ public class ModelConversion implements IModelConverter {
 				Pattern p = Pattern.compile("^[(](\\d+) breach.* (\\d+) hour.*[)]$");
 				Matcher m = p.matcher(nonParsedPolicy);
 				
-				int breachCount = Integer.parseInt(m.group(1));
-				long hourInterval = Long.parseLong(m.group(2));
-				
-				policy.setCount(breachCount);
-				policy.setTimeInterval(new Date(hourInterval * MSINHOUR));
-
-				policies = new ArrayList<IPolicy>();
-				policies.add(policy);
+				if (m.matches()) {
+					int breachCount = Integer.parseInt(m.group(1));
+					long hourInterval = Long.parseLong(m.group(2));
+					
+					policy.setCount(breachCount);
+					policy.setTimeInterval(new Date(hourInterval * MSINHOUR));
+	
+					policies = new ArrayList<IPolicy>();
+					policies.add(policy);
+				} else {
+					throw new ModelConversionException("Malformed policy: " + nonParsedPolicy);
+				}
 			}
 
 			return policies;
