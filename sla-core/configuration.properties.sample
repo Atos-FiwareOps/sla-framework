@@ -21,8 +21,8 @@ log.thirdpartysw.debugLevel = INFO
 #sla-enforcement
 #configure the classes that will validate and retrieve the data from 3rd party software to monitor
 #cron job and the poll interval is also configured 
-enforcement.constraintEvaluator.class = eu.atos.sla.evaluation.constraint.simple.SimpleConstraintEvaluator
-enforcement.metricsRetriever.class = eu.atos.sla.monitoring.simple.DummyMetricsRetriever
+enforcement.constraintEvaluator.class = {sla_enforcement_constraintEvaluator_class}
+enforcement.metricsRetriever.class = {sla_enforcement_metricsRetriever_class}
 enforcement.poll.interval.mseconds = 10000
 enforcement.spawnlookup.cron = 30 * * * * *
 enforcement.notification.class = eu.atos.sla.notification.DummyEnforcementNotifier
