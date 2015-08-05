@@ -1,0 +1,81 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Atos SLA Manager Core
+
+The SLA Manager core provides mechanisms to support service level agreements
+management in individual and federated environments, based on
+[WS-Agreement specification](http://ogf.org/documents/GFD.192.pdf). 
+
+The platform only pupports one-shot negotiation at the moment. The capabilities 
+provided currently by the Atos SLA Manager core module are:
+
++ A language and a protocol to define and advertise the capabilities of service providers in SLA Template forms.
++ Creation agreements based on the templates.
++ Monitoring agreement compliance at runtime. An agreement between a service consumer and a service provider specifies one or more Service Level Objectives (SLOs). These are the expressions of the requirements of the service consumer and of the assurances by the service provider about the quality of services. An agreement lifecycle includes the creation, monitoring and termination of the agreement.
+
+The WS-Agreement specification describes an XML schema for specifying service level 
+agreements (both applicable to SLA Templates, Agreement Offers and Agreements). SLA 
+Templates, Agreement Offers and Agreements are defined and described using the 
+[WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
+
+# Atos SLA Manager Core API Root [/]
+
+This does not return any resource.
+
+## Povider Collection [/providers]
+
+### List All Providers [GET]
+
+This operations allows to get all the registered providers in the SLA Manager Core.
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <collection href="/providers">
+                <items offset="0" total="1">
+                    <provider>
+                        <uuid>Trento</uuid>
+                        <name>Trento</name>
+                    </provider>
+                </items>
+            </collection>
+
+### Create a New Provider [POST]
+
+Allows to create a new provider. It takes a XML body containing
+the name of the provider.
+
++ Request (application/xml)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            <provider>
+                <name>Trento</name>
+            </provider>
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            <message code="201" message="The provider has been stored successfully in the SLA Repository Database. It has location http://localhost:8080/sla-service/providers/Trento"/>
+            <provider>
+                <uuid>Trento</uuid>
+                <name>Trento</name>
+            </provider>
