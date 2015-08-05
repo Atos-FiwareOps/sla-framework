@@ -66,7 +66,7 @@ This operations allows to get all the registered providers in the SLA Manager Co
             <collection href="/providers">
                 <items offset="0" total="1">
                     <provider>
-                        <uuid>Trento</uuid>
+                        <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
                         <name>Trento</name>
                     </provider>
                 </items>
@@ -119,3 +119,48 @@ the name of the provider.
                 <uuid>Trento</uuid>
                 <name>Trento</name>
             </provider>
+
+## Provider [/providers/{provider_id}]
+
+### Get provider info [GET]
+
++ Parameters
+
+    + provider_id (uuid) - Id of the provider
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            <provider>
+                <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
+                <name>provider-prueba</name>
+            </provider>
+
++ Request (application/json)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "uuid":"fc923960-03fe-41eb-8a21-a56709f9370f",
+                "name":"provider-prueba"
+            }
+
++ Response 404
+
+        Returned when the object is not in the database.
