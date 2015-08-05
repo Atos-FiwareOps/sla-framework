@@ -782,8 +782,8 @@ Parameters:
 * agreementId: if specified, search the violations of the agreement with this agreementId,
 * guaranteeTerm: if specified, search the violations of the guarantee term with this name (GuaranteeTerm[@name]),
 * providerId: if specified, search the violations raised by this provider.
-* begin: if specified, set a lower limit of date of violations to search,
-* end: if specified, set an upper limit of date of violations to search.
+* begin: if specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+* end: if specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
 Error message:
 

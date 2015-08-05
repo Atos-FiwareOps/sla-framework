@@ -26,7 +26,7 @@ public class Penalty  {
 
 	@XmlElement(name = "uuid")
 	private String uuid;
-	@XmlElement(name = "agreement")
+	@XmlElement(name = "agreement_id")
 	private String agreementId;
 	@JsonSerialize(using=DateTimeSerializerJSON.class)
 	@JsonDeserialize(using=DateTimeDeserializerJSON.class)
