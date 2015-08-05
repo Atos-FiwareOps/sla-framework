@@ -19,6 +19,28 @@ agreements (both applicable to SLA Templates, Agreement Offers and Agreements). 
 Templates, Agreement Offers and Agreements are defined and described using the 
 [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
+# REST API
+
+The REST interface to the sla-core system has the following conventions:
+
+* Every entity is created with a POST to the collection url. The body request contains the serialized entity in the 
+  format specified in the content-type header. The location header of the response refers to the url of the new 
+  allocated resource. The return code is a 201 on success. Templates and agreements have special considerations 
+  (see the corresponding section). 
+* A query for an individual item is a GET to the url of the resource (collection url + external id). The format of the 
+  response is specified in the http header with the accept parameter. The return code is 200. As expected, a not found
+  resource returns a 404.
+* Any other query is usually a GET to the collection's url, using the GET parameters as the query parameters. The 
+  result is a list of entities that match the parameters, despite the actual number of entities. The return code is 
+  200, even if the list is empty.
+* Any unexpected error processing the request returns a 5xx.
+* An entity (or list) is serialized in the response body by default with the format specified in the Content-type 
+  header (if specified). The request may have an Accept header, that will be used if the resource allows more than one 
+  Content-type.
+* Updating an entity involves a PUT request, with the corresponding resource serialized in the body in the format 
+  specified in the content-type header. The return code is 200.
+* If a query has begin and/or end parameters, the following search is done: `begin <= entity date < end`
+
 # Atos SLA Manager Core API Root [/]
 
 This does not return any resource.
@@ -49,6 +71,24 @@ This operations allows to get all the registered providers in the SLA Manager Co
                     </provider>
                 </items>
             </collection>
+
++ Request (application/json)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "uuid":"fc923960-03fe-41eb-8a21-a56709f9370f",
+                    "name":"provider-prueba"
+                }
+            ]
 
 ### Create a New Provider [POST]
 
