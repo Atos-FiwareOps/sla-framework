@@ -973,11 +973,85 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 </enforcement_job>
             </enforcementJobs>
 
+## Enforcement job by agreement [/enforcements/{AgreementId}]
 
+### Get enforcement job by agreement [GET]
 
++ Parameters
 
+    + AgreementId (string) - Id of the agreement
 
++ Request (application/xml)
 
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <enforcement_job>
+                <agreement_id>a5124ad1-d506-48d5-9666-78da4c432dc6</agreement_id>
+                <enabled>true</enabled>
+                <last_executed>2015-08-06T14:02:30CEST</last_executed>
+            </enforcement_job>
+
++ Response 404
+
+        Returned when the given uuid doesn't exist in the database.
+
+## Start enforcement job for agreement [/enforcements/{AgreementId}/start]
+
+### Start enforcement job for agreement [PUT]
+
++ Parameters
+
+    + AgreementId (string) - Id of the agreement
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            The enforcement job with agreement-uuid {agreement-id} has started
+
++ Response 403
+
+        Returned when it was not possible to start the job.
+
+## Stop enforcement job for agreement [/enforcements/{AgreementId}/stop]
+
+### Stop enforcement job for agreement [PUT]
+
++ Parameters
+
+    + AgreementId (string) - Id of the agreement
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            The enforcement job with agreement-uuid {agreement-id} has stoppped
+
++ Response 403
+
+        Returned when it was not possible to stop the job.
 
 
 
