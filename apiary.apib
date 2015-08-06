@@ -45,9 +45,11 @@ The REST interface to the sla-core system has the following conventions:
 
 This does not return any resource.
 
-# Povider Collection [/providers]
+# Provider
 
-## List all providers [GET]
+## Povider Collection [/providers]
+
+### List all providers [GET]
 
 This operations allows to get all the registered providers in the SLA Manager Core.
 
@@ -70,7 +72,7 @@ This operations allows to get all the registered providers in the SLA Manager Co
                 </provider>
             </providers>
 
-## Create a new provider [POST]
+### Create a new provider [POST]
 
 Allows to create a new provider. It takes a XML body containing
 the name of the provider.
@@ -106,9 +108,9 @@ the name of the provider.
 
         Returned when the uuid or name already exists in the database.
 
-# Provider [/providers/{uuid}]
+## Provider [/providers/{uuid}]
 
-## Get provider info [GET]
+### Get provider info [GET]
 
 + Parameters
 
@@ -135,7 +137,7 @@ the name of the provider.
 
         Returned when the object is not in the database.
 
-## Delete provider [DELETE]
+### Delete provider [DELETE]
 
 + Response 204
 + Response 404
@@ -146,9 +148,9 @@ the name of the provider.
 
         Returned when the provider code is being used.
 
-# Template Collection [/templates]
+## Template Collection [/templates]
 
-## List all templates [GET]
+### List all templates [GET]
 
 This operations allows to get all the registered providers in the SLA Manager Core.
 
@@ -223,7 +225,7 @@ This operations allows to get all the registered providers in the SLA Manager Co
                 </wsag:Template>
             </templates>
 
-## Create a new template [POST]
+### Create a new template [POST]
 
 Allows to create a new template. It takes a XML body the description of the
 template, following the [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
@@ -339,9 +341,9 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
         Returned when incorrect data has been suplied.
         
-# Template [/templates/{TemplateId}]
+## Template [/templates/{TemplateId}]
 
-## Get template info [GET]
+### Get template info [GET]
 
 + Parameters
 
@@ -391,7 +393,7 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
         Returned when the object is not in the database.
 
-## Delete template [DELETE]
+### Delete template [DELETE]
 
 + Response 204
 + Response 404
@@ -421,9 +423,9 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
 
 
-# Agreement Collection [/agreements]
+## Agreement Collection [/agreements]
 
-## List all agreements [GET]
+### List all agreements [GET]
 
 This operation allows to get all the registered agreements in the SLA Manager Core.
 
@@ -542,7 +544,7 @@ This operation allows to get all the registered agreements in the SLA Manager Co
                 </wsag:Agreement>
             </agreements>
 
-## Create a new agreement [POST]
+### Create a new agreement [POST]
 
 Allows to create a new agreement. It takes a XML body the description of the
 agreement, following the [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
@@ -704,9 +706,9 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
 
         Returned when incorrect data has been suplied.
         
-# Agreement [/agreements/{AgreementId}]
+## Agreement [/agreements/{AgreementId}]
 
-## Get agreement info [GET]
+### Get agreement info [GET]
 
 + Parameters
 
@@ -778,7 +780,7 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
 
         Returned when the object is not in the database.
 
-## Delete agreement [DELETE]
+### Delete agreement [DELETE]
 
 + Response 204
 + Response 404
