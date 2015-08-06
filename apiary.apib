@@ -41,9 +41,7 @@ The REST interface to the sla-core system has the following conventions:
   specified in the content-type header. The return code is 200.
 * If a query has begin and/or end parameters, the following search is done: `begin <= entity date < end`
 
-# Atos SLA Manager Core API Root [/]
-
-This does not return any resource.
+# Group Provider
 
 ## Povider Collection [/providers]
 
@@ -145,6 +143,10 @@ the name of the provider.
 + Response 409
 
         Returned when the provider code is being used.
+
+# Group Template
+
+The TemplateId matches the TemplateId attribute of wsag:Template element when the template is created. A template is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
 ## Template Collection [/templates]
 
@@ -402,24 +404,9 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
         Returned when agreements are still associated to the template.
         
+# Group Agreement
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The AgreementId matches the AgreementId attribute of wsag:Agreement element when the agreement is created. An agreement is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
 ## Agreement Collection [/agreements]
 
@@ -933,15 +920,9 @@ There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
 
         Returned when the uuid doesn't exist in the database.
 
+# Group Enforcement job
 
-
-
-
-
-
-# Enforcement jobs
-
-    An enforcement job is the entity which starts the enforcement of the agreement guarantee terms. An agreement can be enforced only if an enforcement job, linked with it, has been previously created and started. An enforcement job is automatically created when an agreement is created, so there is no need to create one to start an enforcement.
+An enforcement job is the entity which starts the enforcement of the agreement guarantee terms. An agreement can be enforced only if an enforcement job, linked with it, has been previously created and started. An enforcement job is automatically created when an agreement is created, so there is no need to create one to start an enforcement.
 
 ## Enforcement jobs collection [/enforcements]
 
