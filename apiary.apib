@@ -63,37 +63,19 @@ This operations allows to get all the registered providers in the SLA Manager Co
     + Body
 
             <?xml version="1.0" encoding="UTF-8"?>
-            <collection href="/providers">
-                <items offset="0" total="1">
-                    <provider>
-                        <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
-                        <name>Trento</name>
-                    </provider>
-                </items>
-            </collection>
-
-+ Request (application/json)
-
-    + Headers
-    
-            user: basic authentication user
-            password: basic authentication password
-
-+ Response 200 (application/json)
-
-    + Body
-
-            [
-                {
-                    "uuid":"fc923960-03fe-41eb-8a21-a56709f9370f",
-                    "name":"provider-prueba"
-                }
-            ]
+            <providers>
+                <provider>
+                    <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
+                    <name>Trento</name>
+                </provider>
+            </providers>
 
 ### Create a New Provider [POST]
 
 Allows to create a new provider. It takes a XML body containing
 the name of the provider.
+
++ name (string) - The name of the provider
 
 + Request (application/xml)
 
@@ -120,13 +102,17 @@ the name of the provider.
                 <name>Trento</name>
             </provider>
 
-## Provider [/providers/{provider_id}]
++ Response 409
+
+        Returned when the uuid or name already exists in the database.
+
+## Provider [/providers/{uuid}]
 
 ### Get provider info [GET]
 
 + Parameters
 
-    + provider_id (uuid) - Id of the provider
+    + uuid (string) - Id of the provider
 
 + Request (application/xml)
 
@@ -145,22 +131,210 @@ the name of the provider.
                 <name>provider-prueba</name>
             </provider>
 
-+ Request (application/json)
++ Response 404
+
+        Returned when the object is not in the database.
+
+### Delete provider [DELETE]
+
++ Response 204
++ Response 404
+
+        Returned when the given uuid doesn't exist in the database.
+
++ Response 409
+
+        Returned when the provider code is being used.
+
+## Template Collection [/templates]
+
+### List All templates [GET]
+
+This operations allows to get all the registered providers in the SLA Manager Core.
+
++ Request (application/xml)
 
     + Headers
     
             user: basic authentication user
             password: basic authentication password
 
-+ Response 200 (application/json)
++ Response 200 (application/xml)
 
     + Body
 
-            {
-                "uuid":"fc923960-03fe-41eb-8a21-a56709f9370f",
-                "name":"provider-prueba"
-            }
+            <?xml version="1.0" encoding="UTF-8"?>
+            <templates>
+                <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="c3bcd8fb-e632-4aa6-a4d6-b0979f9da116">
+                    <wsag:Name>Template1</wsag:Name>
+                    <wsag:Context>
+                        <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                        <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                        <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                        <sla:Service>Service1</sla:Service>
+                    </wsag:Context>
+                    <wsag:Terms>
+                        <wsag:All>
+                            <wsag:ServiceDescriptionTerm />
+                            <wsag:ServiceProperties wsag:ServiceName="Service1">
+                                <wsag:VariableSet>
+                                    <wsag:Variable wsag:Name="percDiskUsed" />
+                                </wsag:VariableSet>
+                            </wsag:ServiceProperties>
+                            <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service1" />
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                        </wsag:All>
+                    </wsag:Terms>
+                </wsag:Template>
+                <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="11c3e6d7-550c-4882-a419-09ece0c71d15">
+                    <wsag:Name>Template2</wsag:Name>
+                    <wsag:Context>
+                        <wsag:AgreementInitiator>Provider2</wsag:AgreementInitiator>
+                        <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                        <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                        <sla:Service>Service2</sla:Service>
+                    </wsag:Context>
+                    <wsag:Terms>
+                        <wsag:All>
+                            <wsag:ServiceDescriptionTerm />
+                            <wsag:ServiceProperties wsag:ServiceName="Service2">
+                                <wsag:VariableSet>
+                                    <wsag:Variable wsag:Name="sysUptime" />
+                                </wsag:VariableSet>
+                            </wsag:ServiceProperties>
+                            <wsag:GuaranteeTerm wsag:Name="sysUptime">
+                                <wsag:ServiceScope wsag:ServiceName="Service2" />
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>sysUptime</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"policy": "(1 breach, 12 hours)", "constraint": "sysUptime LT 90"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                        </wsag:All>
+                    </wsag:Terms>
+                </wsag:Template>
+            </templates>
 
-+ Response 404
+### Create a New Template [POST]
 
-        Returned when the object is not in the database.
+Allows to create a new template. It takes a XML body the description of the
+template, following the [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
+It might include a TemplateId or not. In case of not beeing included, a uuid will be assigned.
+
++ TemplateId (string) - The id of the template (optional)
++ Name (string) - A human readable name for the template.
++ Context (object)
+    + AgreementInitiator (string) - The name of the agreement initiator (in our case, an existing provider)
+    + AgreementResponder (string) - The name of the responder (optional)
+    + ServiceProvider (string) - The name of the service provider (an existing provider)
+    + Service (string) - The service ID the template is based on.
+    + ExpirationTime (string) - The expiration date of the template (YYYY-MM-DDThh:mm:ss+hhmm format)
++ Terms (list) - A list of terms.
+    + All (object)
+        + ServiceDescriptionTerm (object)
+            + Name (string) - The name of the service description term
+            + ServiceName (string) - The service ID the template is based on.
+            + Value (string) - Human readable description of the service description term.
+        + ServiceProperties (list) - A list of variable sets.
+            + Name (string) - Name of the properties.
+            + ServiceName (string) - Name of the service where the properties apply.
+            + VariableSet (list) - A list of variables.
+                + Variable (object)
+                    + Name (string) - The name of the variable.
+        + GuaranteeTerm (list) - A list of ServiceScope and ServiceLevelObjective.
+            + Name (string) - Descriptive name of the Guarantee Term.
+            + ServiceScope (object)
+                + ServiceName (string) - name of the service.
+                + Value (string) - Id of the scope of the service.
+            + ServiceLevelObjetive (object)
+                + KPITarget (object)
+                    + KPIName (string) - Name of the KPI to be monitored.
+                    + CustomServiceLevel (string) - Custom values to be fulfilled by the monitored KPI.
+
++ Request (application/xml)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu">
+                <wsag:Name>Template1</wsag:Name>
+                <wsag:Context>
+                    <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                    <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                    <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                    <sla:Service>Service1</sla:Service>
+                </wsag:Context>
+                <wsag:Terms>
+                    <wsag:All>
+                        <wsag:ServiceDescriptionTerm />
+                        <wsag:ServiceProperties wsag:ServiceName="Service1">
+                            <wsag:VariableSet>
+                                <wsag:Variable wsag:Name="percDiskUsed" />
+                            </wsag:VariableSet>
+                        </wsag:ServiceProperties>
+                        <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                            <wsag:ServiceScope wsag:ServiceName="Service1" />
+                            <wsag:ServiceLevelObjective>
+                                <wsag:KPITarget>
+                                    <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                    <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                </wsag:KPITarget>
+                            </wsag:ServiceLevelObjective>
+                        </wsag:GuaranteeTerm>
+                    </wsag:All>
+                </wsag:Terms>
+            </wsag:Template>
+
++ Response 201 (application/xml)
+
+    + Body
+
+            <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="c3bcd8fb-e632-4aa6-a4d6-b0979f9da116">
+                <wsag:Name>Template1</wsag:Name>
+                <wsag:Context>
+                    <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                    <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                    <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                    <sla:Service>Service1</sla:Service>
+                </wsag:Context>
+                <wsag:Terms>
+                    <wsag:All>
+                        <wsag:ServiceDescriptionTerm />
+                        <wsag:ServiceProperties wsag:ServiceName="Service1">
+                            <wsag:VariableSet>
+                                <wsag:Variable wsag:Name="percDiskUsed" />
+                            </wsag:VariableSet>
+                        </wsag:ServiceProperties>
+                        <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                            <wsag:ServiceScope wsag:ServiceName="Service1" />
+                            <wsag:ServiceLevelObjective>
+                                <wsag:KPITarget>
+                                    <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                    <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                </wsag:KPITarget>
+                            </wsag:ServiceLevelObjective>
+                        </wsag:GuaranteeTerm>
+                    </wsag:All>
+                </wsag:Terms>
+            </wsag:Template>
+
++ Response 409
+
+        Returned when the uuid or name already exists in the database.
+        Returned when the provider uuid specified in the template doesn't exist in the database.
+        
++ Response 500
+
+        Returned when incorrect data has been suplied.
