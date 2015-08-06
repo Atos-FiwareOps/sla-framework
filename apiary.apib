@@ -338,3 +338,66 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 + Response 500
 
         Returned when incorrect data has been suplied.
+        
+## Template [/providers/{TemplateId}]
+
+### Get template info [GET]
+
++ Parameters
+
+    + TemplateId (string) - Id of the template
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="c3bcd8fb-e632-4aa6-a4d6-b0979f9da116">
+                <wsag:Name>Template1</wsag:Name>
+                <wsag:Context>
+                    <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                    <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                    <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                    <sla:Service>Service1</sla:Service>
+                </wsag:Context>
+                <wsag:Terms>
+                    <wsag:All>
+                        <wsag:ServiceDescriptionTerm />
+                        <wsag:ServiceProperties wsag:ServiceName="Service1">
+                            <wsag:VariableSet>
+                                <wsag:Variable wsag:Name="percDiskUsed" />
+                            </wsag:VariableSet>
+                        </wsag:ServiceProperties>
+                        <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                            <wsag:ServiceScope wsag:ServiceName="Service1" />
+                            <wsag:ServiceLevelObjective>
+                                <wsag:KPITarget>
+                                    <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                    <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                </wsag:KPITarget>
+                            </wsag:ServiceLevelObjective>
+                        </wsag:GuaranteeTerm>
+                    </wsag:All>
+                </wsag:Terms>
+            </wsag:Template>
+
++ Response 404
+
+        Returned when the object is not in the database.
+
+### Delete template [DELETE]
+
++ Response 204
++ Response 404
+
+        Returned when the given uuid doesn't exist in the database.
+
++ Response 409
+
+        Returned when agreements are still associated to the template.
