@@ -45,8 +45,6 @@ The REST interface to the sla-core system has the following conventions:
 
 This does not return any resource.
 
-# Provider
-
 ## Povider Collection [/providers]
 
 ### List all providers [GET]
@@ -706,6 +704,77 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
 
         Returned when incorrect data has been suplied.
         
+## Active agreement collection [/agreements/active]
+
+### List all agreements [GET]
+
+This operation allows to get all the active agreements in the SLA Manager Core.
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <agreements>
+                <wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:AgreementId="87726a36-e570-4482-b3cc-1cb3d8998bb8">
+                    <wsag:Name>Agreement1</wsag:Name>
+                    <wsag:Context>
+                        <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
+                        <wsag:AgreementResponder>provider1</wsag:AgreementResponder>
+                        <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+                        <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
+                        <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
+                        <sla:Service>Service1</sla:Service>
+                    </wsag:Context>
+                    <wsag:Terms>
+                        <wsag:All>
+                            <wsag:ServiceDescriptionTerm />
+                            <wsag:ServiceProperties wsag:Name="ServiceProperties" wsag:ServiceName="Service1">
+                                <wsag:VariableSet>
+                                    <wsag:Variable wsag:Name="percCPULoad" />
+                                    <wsag:Variable wsag:Name="percDiskUsed" />
+                                    <wsag:Variable wsag:Name="percRAMUsed" />
+                                </wsag:VariableSet>
+                            </wsag:ServiceProperties>
+                            <wsag:GuaranteeTerm wsag:Name="percCPULoad">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percCPULoad</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percCPULoad LT 90"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percDiskUsed LT 80"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percRAMUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percRAMUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percRAMUsed LT 80"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                        </wsag:All>
+                    </wsag:Terms>
+                </wsag:Agreement>
+            </agreements>
+
 ## Agreement [/agreements/{AgreementId}]
 
 ### Get agreement info [GET]
@@ -790,3 +859,144 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
 + Response 409
 
         Returned when agreements are still associated to the template.
+
+## Agreement context [/agreements/{AgreementId}/context]
+
+### Get agreement context [GET]
+
+Only the context from the agreement identified by AgreementId is returned.
+
++ Parameters
+
+    + AgreementId (string) - Id of the agreement
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <wsag:Context xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu">
+                <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
+                <wsag:AgreementResponder>provider1</wsag:AgreementResponder>
+                <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+                <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
+                <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
+                <sla:Service>Service1</sla:Service>
+            </wsag:Context>
+    
++ Response 404
+
+        Returned when the uuid doesn't exist in the database.
+
++ Response 500
+
+        Returned when the data agreement was recorded incorrectly and the data cannot be supplied.
+
+## Agreement guarantee terms status [/agreements/{AgreementId}/guaranteestatus]
+
+### Get agreement context [GET]
+
+Gets the information of the status of the different Guarantee Terms of an agreement.
+
+There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
+
++ Parameters
+
+    + AgreementId (string) - Id of the agreement
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <guaranteestatus AgreementId="87726a36-e570-4482-b3cc-1cb3d8998bb8" value="VIOLATED">
+                <guaranteetermstatus name="percCPULoad" value="VIOLATED" />
+                <guaranteetermstatus name="percDiskUsed" value="FULFILLED" />
+                <guaranteetermstatus name="percRAMUsed" value="FULFILLED" />
+            </guaranteestatus>
+    
++ Response 404
+
+        Returned when the uuid doesn't exist in the database.
+
+
+
+
+
+
+
+# Enforcement jobs
+
+    An enforcement job is the entity which starts the enforcement of the agreement guarantee terms. An agreement can be enforced only if an enforcement job, linked with it, has been previously created and started. An enforcement job is automatically created when an agreement is created, so there is no need to create one to start an enforcement.
+
+## Enforcement jobs collection [/enforcements]
+
+### Get enforcement jobs [GET]
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <enforcementJobs>
+                <enforcement_job>
+                    <agreement_id>22a548ec-122a-4aa1-b4e1-eee7b79c12b5</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+                <enforcement_job>
+                    <agreement_id>166e6666-eb00-4e97-bbbb-53e2f4c78b54</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+                <enforcement_job>
+                    <agreement_id>a5124ad1-d506-48d5-9666-78da4c432dc6</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+                <enforcement_job>
+                    <agreement_id>e133b07e-3b6a-40d3-902f-22be13266198</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+                <enforcement_job>
+                    <agreement_id>87726a36-e570-4482-b3cc-1cb3d8998bb8</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+                <enforcement_job>
+                    <agreement_id>51a3ec44-f755-4ee8-824b-0ce1001e990a</agreement_id>
+                    <enabled>true</enabled>
+                    <last_executed>2015-08-06T13:42:30CEST</last_executed>
+                </enforcement_job>
+            </enforcementJobs>
+
+
+
+
+
+
+
+
+
