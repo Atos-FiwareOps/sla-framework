@@ -1026,7 +1026,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Response 403
 
-        Returned when it was not possible to start the job.
+            Returned when it was not possible to start the job.
 
 ## Stop enforcement job for agreement [/enforcements/{AgreementId}/stop]
 
@@ -1051,7 +1051,100 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Response 403
 
-        Returned when it was not possible to stop the job.
+            Returned when it was not possible to stop the job.
 
+# Group Violations
 
+## Violation collection [/violations{?agreementId}{?guaranteeTerm}{?providerId}{?begin}{?end}]
 
+### Get violations [GET]
+
++ Parameters
+
+    + agreementId (string)(optional) - If specified, search the violations of the agreement with this agreementId.
+    + guaranteeTerm (string)(optional) - If specified, search the violations of the guarantee term with this name.
+    + providerId (string)(optional) - If specified, search the violations raised by this provider.
+    + begin (string)(optional) - If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (string)(optional) - If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <violations>
+                <violation>
+                    <uuid>83e6e958-a34e-4089-9e48-7ebf6fda366a</uuid>
+                    <contract_uuid>22a548ec-122a-4aa1-b4e1-eee7b79c12b5</contract_uuid>
+                    <service_name>Service1</service_name>
+                    <service_scope>Service1</service_scope>
+                    <metric_name>percDiskUsed</metric_name>
+                    <datetime>2015-07-28T15:09:29CEST</datetime>
+                    <actual_value>0.34827652639805917</actual_value>
+                </violation>
+                <violation>
+                    <uuid>720415c7-fa01-4d48-9235-547820c05b00</uuid>
+                    <contract_uuid>a5124ad1-d506-48d5-9666-78da4c432dc6</contract_uuid>
+                    <service_name>Service1</service_name>
+                    <service_scope>Service1</service_scope>
+                    <metric_name>sysUptime</metric_name>
+                    <datetime>2015-08-06T12:21:01CEST</datetime>
+                    <actual_value>0</actual_value>
+                </violation>
+                <violation>
+                    <uuid>875f2e40-d549-41b5-9955-df048a8d35c9</uuid>
+                    <contract_uuid>a5124ad1-d506-48d5-9666-78da4c432dc6</contract_uuid>
+                    <service_name>Service1</service_name>
+                    <service_scope>Service1</service_scope>
+                    <metric_name>sysUptime</metric_name>
+                    <datetime>2015-08-06T12:22:41CEST</datetime>
+                    <actual_value>0</actual_value>
+                </violation>
+            </violations>
+            
++ Response 404
+
+        Returned when erroneous data is provided in the call.
+        
+## Violation [/violations/{uuid}]
+
+### Get violation info [GET]
+
+        Retrieves information from a violation identified by the uuid.
+
++ Parameters
+
+    + uuid (string) - The uuid of the violation.
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <violation>
+                <uuid>83e6e958-a34e-4089-9e48-7ebf6fda366a</uuid>
+                <contract_uuid>22a548ec-122a-4aa1-b4e1-eee7b79c12b5</contract_uuid>
+                <service_name>Service1</service_name>
+                <service_scope>Service1</service_scope>
+                <metric_name>percDiskUsed</metric_name>
+                <datetime>2015-07-28T15:09:29CEST</datetime>
+                <actual_value>0.34827652639805917</actual_value>
+            </violation>
+            
++ Response 404
+
+        Returned when the uuid doesn't exist in the database.
