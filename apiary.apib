@@ -152,7 +152,7 @@ the name of the provider.
 
 + Parameters
 
-    + uuid (string) - Id of the provider
+    + uuid (string) ... Id of the provider
 
 + Request
 
@@ -189,7 +189,7 @@ the name of the provider.
 
 + Parameters
 
-    + uuid (string) - Id of the provider
+    + uuid (string) ... Id of the provider
 
 + Request
 
@@ -2332,7 +2332,7 @@ Only the context from the agreement identified by AgreementId is returned.
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
 + Request
 
@@ -2631,13 +2631,13 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + agreementId (optional, string) - If specified, search the violations of the agreement with this agreementId.
-    + guaranteeTerm (optional, string) - If specified, search the violations of the guarantee term with this name.
-    + providerId (optional, string) - If specified, search the violations raised by this provider.
-    + begin (optional, string) - If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
-    + end (optional, string) - If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + agreementId (optional, string) ... If specified, search the violations of the agreement with this agreementId.
+    + guaranteeTerm (optional, string) ... If specified, search the violations of the guarantee term with this name.
+    + providerId (optional, string) ... If specified, search the violations raised by this provider.
+    + begin (optional, string) ... If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (optional, string) ... If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2679,6 +2679,40 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 </violation>
             </violations>
             
++ Response 200 (application/json)
+
+    + Body
+    
+            [
+                {
+                    "uuid":"83e6e958-a34e-4089-9e48-7ebf6fda366a",
+                    "datetime":"2015-07-28T15:09:29CEST",
+                    "contract_uuid":"22a548ec-122a-4aa1-b4e1-eee7b79c12b5",
+                    "service_name":"Service1",
+                    "service_scope":"Service1",
+                    "metric_name":"percDiskUsed",
+                    "actual_value":"0.34827652639805917"
+                },
+                {
+                    "uuid":"720415c7-fa01-4d48-9235-547820c05b00",
+                    "datetime":"2014-08-13T10:01:01CEST",
+                    "contract_uuid":"a5124ad1-d506-48d5-9666-78da4c432dc6",
+                    "service_name":"Service1",
+                    "service_scope":"Service1",
+                    "metric_name":"sysUptime",
+                    "actual_value":"0"
+                },
+                {
+                    "uuid":"875f2e40-d549-41b5-9955-df048a8d35c9",
+                    "datetime":"2015-08-06T12:22:41CEST",
+                    "contract_uuid":"a5124ad1-d506-48d5-9666-78da4c432dc6",
+                    "service_name":"Service1",
+                    "service_scope":"Service1",
+                    "metric_name":"sysUptime",
+                    "actual_value":"0"
+                }
+            ]
+            
 + Response 404
 
         Returned when erroneous data is provided in the call.
@@ -2691,9 +2725,9 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + uuid (string) - The uuid of the violation.
+    + uuid (string) ... The uuid of the violation.
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2714,6 +2748,20 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 <datetime>2015-07-28T15:09:29CEST</datetime>
                 <actual_value>0.34827652639805917</actual_value>
             </violation>
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "uuid":"83e6e958-a34e-4089-9e48-7ebf6fda366a",
+                "datetime":"2015-07-28T15:09:29CEST",
+                "contract_uuid":"22a548ec-122a-4aa1-b4e1-eee7b79c12b5",
+                "service_name":"Service1",
+                "service_scope":"Service1",
+                "metric_name":"percDiskUsed",
+                "actual_value":"0.34827652639805917"
+            }
             
 + Response 404
 
@@ -2805,7 +2853,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
     + uuid (string) ... The uuid of the penalty.
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
