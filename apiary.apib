@@ -411,26 +411,26 @@ Allows to create a new template. It takes a XML body the description of the
 template, following the [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 It might include a TemplateId or not. In case of not beeing included, a uuid will be assigned.
 
-+ TemplateId (string) - The id of the template (optional)
-+ Name (string) - A human readable name for the template.
++ TemplateId (optionsl, string) - The id of the template.
++ Name (string) - A human readable name for the agreement.
 + Context (object)
     + AgreementInitiator (string) - The name of the agreement initiator (in our case, an existing provider)
-    + AgreementResponder (string) - The name of the responder (optional)
+    + AgreementResponder (optional, string) - The name of the responder.
     + ServiceProvider (string) - The name of the service provider (an existing provider)
-    + Service (string) - The service ID the template is based on.
+    + Service (string) - The service ID the agreement will monitor.
     + ExpirationTime (string) - The expiration date of the template (YYYY-MM-DDThh:mm:ss+hhmm format)
-+ Terms (list) - A list of terms.
++ Terms (object) - A set of terms.
     + ServiceDescriptionTerm (object)
         + Name (string) - The name of the service description term
-        + ServiceName (string) - The service ID the template is based on.
+        + ServiceName (string) - The service ID the services are based on.
         + Value (string) - Human readable description of the service description term.
-    + ServiceProperties (list) - A list of variable sets.
+    + ServiceProperties (array[VariableSet]) - A list of variable sets.
         + Name (string) - Name of the properties.
         + ServiceName (string) - Name of the service where the properties apply.
-        + VariableSet (list) - A list of variables.
+        + VariableSet (array[Variable]) - A list of variables.
             + Variable (object)
                 + Name (string) - The name of the variable.
-    + GuaranteeTerm (list) - A list of ServiceScope and ServiceLevelObjective.
+    + GuaranteeTerm (array[ServiceLevelObjetive]) - A list of ServiceScope and ServiceLevelObjective.
         + Name (string) - Descriptive name of the Guarantee Term.
         + ServiceScope (object)
             + ServiceName (string) - name of the service.
@@ -748,7 +748,7 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
         Returned when the object is not in the database.
 
-### Modify an existing template [POST]
+### Modify an existing template [PUT]
 
 Updates the template identified by TemplateId. The body might include a TemplateId or not. In case of including a TemplateId in the file, it must match with the one from the url.
 
@@ -1300,11 +1300,11 @@ Allows to create a new agreement. It takes a XML body the description of the
 agreement, following the [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 It might include a AgreementId or not. In case of not beeing included, a uuid will be assigned.
 
-+ AemplateId (string) - The id of the agreement (optional)
++ AgreementId (optional, string) - The id of the agreement.
 + Name (string) - A human readable name for the agreement.
 + Context (object)
     + AgreementInitiator (string) - The name of the agreement initiator (in our case, an existing provider)
-    + AgreementResponder (string) - The name of the responder (optional)
+    + AgreementResponder (optional, string) - The name of the responder.
     + ServiceProvider (string) - The name of the service provider (an existing provider)
     + Service (string) - The service ID the agreement will monitor.
     + TemplateId (string) - The template id the new agreement is based on.
