@@ -1169,6 +1169,13 @@ An enforcement job is the entity which starts the enforcement of the agreement g
     
             user: basic authentication user
             password: basic authentication password
+            
++ Request (application/json)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
 
 + Response 200 (application/xml)
 
@@ -1183,13 +1190,44 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                     <definition type="discount" expression="35" unit="%" validity="P1D"/>
                 </penalty>
                 <penalty xmlns:sla="http://sla.atos.eu" xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement">
-                    <uuid>ec7fd8ec-d917-49a2-ad80-80ff9aa8269c</uuid>
+                    <uuid>36f45694-c58a-443f-abad-6145206b9faa</uuid>
                     <agreement>a5124ad1-d506-48d5-9666-78da4c432dc6</agreement>
                     <datetime>2015-01-21T18:42:00CET</datetime>
                     <definition type="discount" expression="40" unit="%" validity="P1D"/>
                 </penalty>
             </penalties>
-            
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                [
+                    {
+                        "uuid":"bfc4bc66-d647-453a-b813-d130f6116daf",
+                        "datetime":"2015-01-21T18:49:00CET",
+                        "definition":{
+                            "type":"discount",
+                            "expression":"35",
+                            "unit":"%",
+                            "validity":"P1D"
+                        },
+                        "agreement":"22a548ec-122a-4aa1-b4e1-eee7b79c12b5"
+                    },
+                    {
+                        "uuid":"36f45694-c58a-443f-abad-6145206b9faa",
+                        "datetime":"2015-01-21T18:49:00CET",
+                        "definition":{
+                            "type":"discount",
+                            "expression":"40",
+                            "unit":"%",
+                            "validity":"P1D"
+                        },
+                        "agreement":"a5124ad1-d506-48d5-9666-78da4c432dc6"
+                    }
+                ]
+            }
+
 + Response 404
 
         Returned when erroneous data is provided in the call.
