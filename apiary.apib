@@ -2441,7 +2441,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 ### Get enforcement jobs [GET]
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2486,15 +2486,50 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 </enforcement_job>
             </enforcementJobs>
 
++ Response 200 (application/json)
+
+            [
+                {
+                    "enabled":true,
+                    "agreement_id":"22a548ec-122a-4aa1-b4e1-eee7b79c12b5",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                },
+                {
+                    "enabled":true,
+                    "agreement_id":"166e6666-eb00-4e97-bbbb-53e2f4c78b54",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                },
+                {
+                    "enabled":true,
+                    "agreement_id":"a5124ad1-d506-48d5-9666-78da4c432dc6",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                },
+                {
+                    "enabled":true,
+                    "agreement_id":"e133b07e-3b6a-40d3-902f-22be13266198",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                },
+                {
+                    "enabled":true,
+                    "agreement_id":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                },
+                {
+                    "enabled":true,
+                    "agreement_id":"51a3ec44-f755-4ee8-824b-0ce1001e990a",
+                    "last_executed":"2015-08-06T13:42:30CEST"
+                }
+            ]
+
 ## Enforcement job by agreement [/enforcements/{AgreementId}]
 
 ### Get enforcement job by agreement [GET]
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2511,6 +2546,16 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 <enabled>true</enabled>
                 <last_executed>2015-08-06T14:02:30CEST</last_executed>
             </enforcement_job>
+            
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "enabled":true,
+                "agreement_id":"a5124ad1-d506-48d5-9666-78da4c432dc6",
+                "last_executed":"2015-08-06T14:02:30CEST"
+            }
 
 + Response 404
 
@@ -2522,9 +2567,9 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2532,6 +2577,12 @@ An enforcement job is the entity which starts the enforcement of the agreement g
             password: basic authentication password
 
 + Response 200 (application/xml)
+
+    + Body
+
+            The enforcement job with agreement-uuid {agreement-id} has started
+
++ Response 200 (application/json)
 
     + Body
 
@@ -2547,9 +2598,9 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -2557,6 +2608,12 @@ An enforcement job is the entity which starts the enforcement of the agreement g
             password: basic authentication password
 
 + Response 200 (application/xml)
+
+    + Body
+
+            The enforcement job with agreement-uuid {agreement-id} has stoppped
+
++ Response 200 (application/json)
 
     + Body
 
