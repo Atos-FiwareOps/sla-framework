@@ -1309,18 +1309,18 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
     + Service (string) - The service ID the agreement will monitor.
     + TemplateId (string) - The template id the new agreement is based on.
     + ExpirationTime (string) - The expiration date of the template (YYYY-MM-DDThh:mm:ss+hhmm format)
-+ Terms (list) - A list of terms.
++ Terms (object) - A set of terms.
     + ServiceDescriptionTerm (object)
         + Name (string) - The name of the service description term
         + ServiceName (string) - The service ID the services are based on.
         + Value (string) - Human readable description of the service description term.
-    + ServiceProperties (list) - A list of variable sets.
+    + ServiceProperties (array[VariableSet]) - A list of variable sets.
         + Name (string) - Name of the properties.
         + ServiceName (string) - Name of the service where the properties apply.
-        + VariableSet (list) - A list of variables.
+        + VariableSet (array[Variable]) - A list of variables.
             + Variable (object)
                 + Name (string) - The name of the variable.
-    + GuaranteeTerm (list) - A list of ServiceScope and ServiceLevelObjective.
+    + GuaranteeTerm (array[ServiceLevelObjetive]) - A list of ServiceScope and ServiceLevelObjective.
         + Name (string) - Descriptive name of the Guarantee Term.
         + ServiceScope (object)
             + ServiceName (string) - name of the service.
