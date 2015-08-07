@@ -49,7 +49,7 @@ The REST interface to the sla-core system has the following conventions:
 
 This operations allows to get all the registered providers in the SLA Manager Core.
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -63,10 +63,31 @@ This operations allows to get all the registered providers in the SLA Manager Co
             <?xml version="1.0" encoding="UTF-8"?>
             <providers>
                 <provider>
-                    <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
-                    <name>Trento</name>
+                    <uuid>9a9b83ff-cce2-43d6-9a2e-dea7c7b4e48b</uuid>
+                    <name>Provider 1</name>
+                </provider>
+                <provider>
+                    <uuid>f9d5b739-85ee-4ca1-939d-8c9d882f5da8</uuid>
+                    <name>Provider 2</name>
                 </provider>
             </providers>
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id":null,
+                    "uuid":"9a9b83ff-cce2-43d6-9a2e-dea7c7b4e48b",
+                    "name":"Provider 1"
+                },
+                {
+                    "id":null,
+                    "uuid":"f9d5b739-85ee-4ca1-939d-8c9d882f5da8",
+                    "name":"Provider 2"
+                }
+            ]
 
 ### Create a new provider [POST]
 
@@ -86,7 +107,7 @@ the name of the provider.
             
             <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
             <provider>
-                <name>Trento</name>
+                <name>Provider 3</name>
             </provider>
 
 + Response 201 (application/xml)
@@ -94,11 +115,32 @@ the name of the provider.
     + Body
 
             <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-            <message code="201" message="The provider has been stored successfully in the SLA Repository Database. It has location http://localhost:8080/sla-service/providers/Trento"/>
             <provider>
-                <uuid>Trento</uuid>
-                <name>Trento</name>
+                <uuid>8145c0ba-f719-45ae-b293-baa942a4a156</uuid>
+                <name>Provider 3</name>
             </provider>
+
++ Request (application/json)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            {
+                "name":"Provider 3"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "uuid":"8145c0ba-f719-45ae-b293-baa942a4a156",
+                "name":"Provider 3"
+            }
 
 + Response 409
 
@@ -112,7 +154,7 @@ the name of the provider.
 
     + uuid (string) - Id of the provider
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -123,17 +165,38 @@ the name of the provider.
 
     + Body
 
-            <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            <?xml version="1.0" encoding="UTF-8"?>
             <provider>
-                <uuid>fc923960-03fe-41eb-8a21-a56709f9370f</uuid>
-                <name>provider-prueba</name>
+                <uuid>9a9b83ff-cce2-43d6-9a2e-dea7c7b4e48b</uuid>
+                <name>Provider 1</name>
             </provider>
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id":null,
+                "uuid":"9a9b83ff-cce2-43d6-9a2e-dea7c7b4e48b",
+                "name":"Provider 1"
+            }
 
 + Response 404
 
         Returned when the object is not in the database.
 
 ### Delete provider [DELETE]
+
++ Parameters
+
+    + uuid (string) - Id of the provider
+
++ Request
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
 
 + Response 204
 + Response 404
