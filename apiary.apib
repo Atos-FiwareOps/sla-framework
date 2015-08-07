@@ -1163,7 +1163,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
     + begin (optional, string) ... If specified, set a lower limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
     + end (optional, string) ... If specified, set an upper limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -1189,13 +1189,6 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                     <definition type="discount" expression="40" unit="%" validity="P1D"/>
                 </penalty>
             </penalties>
-
-+ Request (application/json)
-
-    + Headers
-    
-            user: basic authentication user
-            password: basic authentication password
 
 + Response 200 (application/json)
 
