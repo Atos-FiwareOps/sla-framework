@@ -211,13 +211,19 @@ the name of the provider.
 
 The TemplateId matches the TemplateId attribute of wsag:Template element when the template is created. A template is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
-## Template Collection [/templates]
+## Template Collection [/templates{?serviceIds}{?providerId}]
 
 ### List all templates [GET]
 
 This operations allows to get all the registered providers in the SLA Manager Core.
 
-+ Request (application/xml)
+
++ Parameters
+
+    + serviceIds (optional, array[string]) ... String with coma separated values (CSV) with the id's of service that is associated to the template.
+    + providerId (optional, string) ... Id of the provider that is offering the template.
+
++ Request
 
     + Headers
     
@@ -287,6 +293,117 @@ This operations allows to get all the registered providers in the SLA Manager Co
                     </wsag:Terms>
                 </wsag:Template>
             </templates>
+            
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "templateId":"c3bcd8fb-e632-4aa6-a4d6-b0979f9da116",
+                    "context":{
+                        "agreementInitiator":"Provider1",
+                        "agreementResponder":null,
+                        "serviceProvider":"AgreementInitiator",
+                        "expirationTime":"0037-01-04T15:08:15CET",
+                        "templateId":null,
+                        "service":"Service1"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":null,
+                                    "serviceName":"Service1",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"percDiskUsed",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"percDiskUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":""
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percDiskUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "name":"Template1"
+                },
+                {
+                    "templateId":"11c3e6d7-550c-4882-a419-09ece0c71d15",
+                    "context":{
+                        "agreementInitiator":"Provider2",
+                        "agreementResponder":null,
+                        "serviceProvider":"AgreementInitiator",
+                        "expirationTime":"0037-01-04T15:08:15CET",
+                        "templateId":null,
+                        "service":"Service2"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":null,
+                                    "serviceName":"Service2",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"sysUptime",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"sysUptime",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":""
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"sysUptime",
+                                            "customServiceLevel":"{\"policy\": \"(1 breach, 12 hours)\", \"constraint\": \"sysUptime LT 90\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "name":"Template2"
+                }
+            ]
 
 ### Create a new template [POST]
 
@@ -395,6 +512,125 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
                 </wsag:Terms>
             </wsag:Template>
 
++ Request (application/json)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            {
+                "context":{
+                    "agreementInitiator":"Provider1",
+                    "agreementResponder":null,
+                    "serviceProvider":"AgreementInitiator",
+                    "expirationTime":"0037-01-04T15:08:15CET",
+                    "templateId":null,
+                    "service":"Service1"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":null,
+                                "serviceName":"Service1",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service1",
+                                    "value":""
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name":"Template1"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "templateId":"c3bcd8fb-e632-4aa6-a4d6-b0979f9da116",
+                "context":{
+                    "agreementInitiator":"Provider1",
+                    "agreementResponder":null,
+                    "serviceProvider":"AgreementInitiator",
+                    "expirationTime":"0037-01-04T15:08:15CET",
+                    "templateId":null,
+                    "service":"Service1"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":null,
+                                "serviceName":"Service1",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service1",
+                                    "value":""
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name":"Template1"
+            }
+
+
 + Response 409
 
         Returned when the uuid or name already exists in the database.
@@ -410,9 +646,9 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
 + Parameters
 
-    + TemplateId (string) - Id of the template
+    + TemplateId (string) ... Id of the template
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -452,11 +688,280 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
                 </wsag:Terms>
             </wsag:Template>
 
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "templateId":"c3bcd8fb-e632-4aa6-a4d6-b0979f9da116",
+                "context":{
+                    "agreementInitiator":"Provider1",
+                    "agreementResponder":null,
+                    "serviceProvider":"AgreementInitiator",
+                    "expirationTime":"0037-01-04T15:08:15CET",
+                    "templateId":null,
+                    "service":"Service1"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":null,
+                                "serviceName":"Service1",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service1",
+                                    "value":""
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name":"Template1"
+            }
+
 + Response 404
 
         Returned when the object is not in the database.
 
+### Modify an existing template [POST]
+
+Updates the template identified by TemplateId. The body might include a TemplateId or not. In case of including a TemplateId in the file, it must match with the one from the url.
+
++ Parameters
+
+    + TemplateId (optional, string) ... Id of the template.
+
++ Request (application/xml)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu">
+                <wsag:Name>Template13</wsag:Name>
+                <wsag:Context>
+                    <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                    <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                    <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                    <sla:Service>Service1</sla:Service>
+                </wsag:Context>
+                <wsag:Terms>
+                    <wsag:All>
+                        <wsag:ServiceDescriptionTerm />
+                        <wsag:ServiceProperties wsag:ServiceName="Service1">
+                            <wsag:VariableSet>
+                                <wsag:Variable wsag:Name="percDiskUsed" />
+                            </wsag:VariableSet>
+                        </wsag:ServiceProperties>
+                        <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                            <wsag:ServiceScope wsag:ServiceName="Service1" />
+                            <wsag:ServiceLevelObjective>
+                                <wsag:KPITarget>
+                                    <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                    <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                </wsag:KPITarget>
+                            </wsag:ServiceLevelObjective>
+                        </wsag:GuaranteeTerm>
+                    </wsag:All>
+                </wsag:Terms>
+            </wsag:Template>
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="c3bcd8fb-e632-4aa6-a4d6-b0979f9da116">
+                <wsag:Name>Template13</wsag:Name>
+                <wsag:Context>
+                    <wsag:AgreementInitiator>Provider1</wsag:AgreementInitiator>
+                    <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+                    <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+                    <sla:Service>Service1</sla:Service>
+                </wsag:Context>
+                <wsag:Terms>
+                    <wsag:All>
+                        <wsag:ServiceDescriptionTerm />
+                        <wsag:ServiceProperties wsag:ServiceName="Service1">
+                            <wsag:VariableSet>
+                                <wsag:Variable wsag:Name="percDiskUsed" />
+                            </wsag:VariableSet>
+                        </wsag:ServiceProperties>
+                        <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                            <wsag:ServiceScope wsag:ServiceName="Service1" />
+                            <wsag:ServiceLevelObjective>
+                                <wsag:KPITarget>
+                                    <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                    <wsag:CustomServiceLevel>{"constraint": "percDiskUsed GT 50"}</wsag:CustomServiceLevel>
+                                </wsag:KPITarget>
+                            </wsag:ServiceLevelObjective>
+                        </wsag:GuaranteeTerm>
+                    </wsag:All>
+                </wsag:Terms>
+            </wsag:Template>
+
++ Request (application/json)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            {
+                "context":{
+                    "agreementInitiator":"Provider1",
+                    "agreementResponder":null,
+                    "serviceProvider":"AgreementInitiator",
+                    "expirationTime":"0037-01-04T15:08:15CET",
+                    "templateId":null,
+                    "service":"Service1"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":null,
+                                "serviceName":"Service1",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service1",
+                                    "value":""
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name":"Template13"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "templateId":"c3bcd8fb-e632-4aa6-a4d6-b0979f9da116",
+                "context":{
+                    "agreementInitiator":"Provider1",
+                    "agreementResponder":null,
+                    "serviceProvider":"AgreementInitiator",
+                    "expirationTime":"0037-01-04T15:08:15CET",
+                    "templateId":null,
+                    "service":"Service1"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":null,
+                                "serviceName":"Service1",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service1",
+                                    "value":""
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed GT 50\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "name":"Template13"
+            }
+
+
++ Response 409
+
+        Returned when the uuid from the url doesn't match with the one from the file or when the system has already an agreement associated .
+        Returned when the template has agreements associated.
+        Returned when the provider doesn't exist.
+        
++ Response 500
+
+        Returned when incorrect data has been suplied.
+
 ### Delete template [DELETE]
+
++ Parameters
+
+    + TemplateId (optional, string) ... Id of the template.
 
 + Response 204
 + Response 404
