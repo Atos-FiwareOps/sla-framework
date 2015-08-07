@@ -976,13 +976,20 @@ Updates the template identified by TemplateId. The body might include a Template
 
 The AgreementId matches the AgreementId attribute of wsag:Agreement element when the agreement is created. An agreement is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
-## Agreement Collection [/agreements]
+## Agreement Collection [/agreements{?consumerId}{?providerId}{?templateId}{?active}]
 
 ### List all agreements [GET]
 
 This operation allows to get all the registered agreements in the SLA Manager Core.
 
-+ Request (application/xml)
++ Parameters
+
+    + consumerId (optional, string) ... uuid of the consumer
+    + providerId (optional, string) ... uuid of the provider
+    + templateId (optional, string) ... uuid of the template the agreement is based on
+    + active (optional, boolean) ... If true, agreements currently enforced are returned
+
++ Request
 
     + Headers
     
@@ -999,7 +1006,7 @@ This operation allows to get all the registered agreements in the SLA Manager Co
                     <wsag:Name>Agreement1</wsag:Name>
                     <wsag:Context>
                         <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
-                        <wsag:AgreementResponder>provider1</wsag:AgreementResponder>
+                        <wsag:AgreementResponder>Provider1</wsag:AgreementResponder>
                         <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
                         <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
                         <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
@@ -1096,6 +1103,197 @@ This operation allows to get all the registered agreements in the SLA Manager Co
                     </wsag:Terms>
                 </wsag:Agreement>
             </agreements>
+            
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "agreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                    "name":"Agreement1",
+                    "context":{
+                        "agreementInitiator":"user1@serviceuser.com",
+                        "agreementResponder":"Provider1",
+                        "serviceProvider":"AgreementResponder",
+                        "expirationTime":"0024-03-07T11:08:24CET",
+                        "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                        "service":"Service1"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":"ServiceProperties",
+                                    "serviceName":"Service1",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"percCPULoad",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percDiskUsed",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percRAMUsed",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"percCPULoad",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percCPULoad",
+                                            "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percDiskUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percDiskUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percRAMUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percRAMUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "agreementId":"51a3ec44-f755-4ee8-824b-0ce1001e990a",
+                    "name":"WirecloudAgreement70_80_60",
+                    "context":{
+                        "agreementInitiator":"user2@serviceuser.com",
+                        "agreementResponder":"Provider2",
+                        "serviceProvider":"AgreementResponder",
+                        "expirationTime":"0026-05-08T11:09:58CET",
+                        "templateId":"99bea98a-6df4-4ed7-94ef-1067962f130c",
+                        "service":"Service2"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":"ServiceProperties",
+                                    "serviceName":"Service2",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"percCPULoad",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percDiskUsed",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percRAMUsed",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"percCPULoad",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percCPULoad",
+                                            "customServiceLevel":"{\"constraint\": \"percCPULoad LT 70\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percDiskUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percDiskUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percRAMUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percRAMUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 60\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
 
 ### Create a new agreement [POST]
 
@@ -1249,6 +1447,204 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
                 </wsag:Terms>
             </wsag:Agreement>
 
++ Request (application/json)
+
+    + headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
+    + body
+            
+            {
+                "name":"Agreement3",
+                "context":{
+                    "agreementInitiator":"user3@serviceuser.com",
+                    "agreementResponder":"Provider3",
+                    "serviceProvider":"AgreementResponder",
+                    "expirationTime":"0024-03-07T11:08:24CET",
+                    "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                    "service":"Service3"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":"ServiceProperties",
+                                "serviceName":"Service3",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percCPULoad",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percRAMUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percCPULoad",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percCPULoad",
+                                        "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percRAMUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percRAMUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "agreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                "name":"Agreement3",
+                "context":{
+                    "agreementInitiator":"user3@serviceuser.com",
+                    "agreementResponder":"Provider3",
+                    "serviceProvider":"AgreementResponder",
+                    "expirationTime":"0024-03-07T11:08:24CET",
+                    "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                    "service":"Service3"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":"ServiceProperties",
+                                "serviceName":"Service3",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percCPULoad",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percRAMUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percCPULoad",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percCPULoad",
+                                        "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percRAMUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percRAMUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
 + Response 409
 
         Returned when the uuid or name already exists in the database.
@@ -1261,11 +1657,11 @@ It might include a AgreementId or not. In case of not beeing included, a uuid wi
         
 ## Active agreement collection [/agreements/active]
 
-### List all agreements [GET]
+### List all active agreements [GET]
 
 This operation allows to get all the active agreements in the SLA Manager Core.
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -1282,7 +1678,7 @@ This operation allows to get all the active agreements in the SLA Manager Core.
                     <wsag:Name>Agreement1</wsag:Name>
                     <wsag:Context>
                         <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
-                        <wsag:AgreementResponder>provider1</wsag:AgreementResponder>
+                        <wsag:AgreementResponder>Provider1</wsag:AgreementResponder>
                         <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
                         <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
                         <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
@@ -1330,15 +1726,427 @@ This operation allows to get all the active agreements in the SLA Manager Core.
                 </wsag:Agreement>
             </agreements>
 
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "agreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                "name":"Agreement3",
+                "context":{
+                    "agreementInitiator":"user3@serviceuser.com",
+                    "agreementResponder":"Provider3",
+                    "serviceProvider":"AgreementResponder",
+                    "expirationTime":"0024-03-07T11:08:24CET",
+                    "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                    "service":"Service3"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":"ServiceProperties",
+                                "serviceName":"Service3",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percCPULoad",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percRAMUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percCPULoad",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percCPULoad",
+                                        "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percRAMUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percRAMUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
+## Agreements per template and consumer [/agreementsPerTemplateAndConsumer{?consumerId}{?templateUUID}]
+
+### Get agreements per template and consumer [GET]
+
++ Parameters
+
+    + consumerId (optional, string) ... uuid of the consumer
+    + templateUUID (optional, string) ... uuid of the template the agreement is based on
+
++ Request
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <agreements>
+                <wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:AgreementId="87726a36-e570-4482-b3cc-1cb3d8998bb8">
+                    <wsag:Name>Agreement1</wsag:Name>
+                    <wsag:Context>
+                        <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
+                        <wsag:AgreementResponder>Provider1</wsag:AgreementResponder>
+                        <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+                        <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
+                        <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
+                        <sla:Service>Service1</sla:Service>
+                    </wsag:Context>
+                    <wsag:Terms>
+                        <wsag:All>
+                            <wsag:ServiceDescriptionTerm />
+                            <wsag:ServiceProperties wsag:Name="ServiceProperties" wsag:ServiceName="Service1">
+                                <wsag:VariableSet>
+                                    <wsag:Variable wsag:Name="percCPULoad" />
+                                    <wsag:Variable wsag:Name="percDiskUsed" />
+                                    <wsag:Variable wsag:Name="percRAMUsed" />
+                                </wsag:VariableSet>
+                            </wsag:ServiceProperties>
+                            <wsag:GuaranteeTerm wsag:Name="percCPULoad">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percCPULoad</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percCPULoad LT 90"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percDiskUsed LT 80"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percRAMUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service1">Service1</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percRAMUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percRAMUsed LT 80"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                        </wsag:All>
+                    </wsag:Terms>
+                </wsag:Agreement>
+                <wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:AgreementId="51a3ec44-f755-4ee8-824b-0ce1001e990a">
+                    <wsag:Name>WirecloudAgreement70_80_60</wsag:Name>
+                    <wsag:Context>
+                        <wsag:AgreementInitiator>user2@serviceuser.com</wsag:AgreementInitiator>
+                        <wsag:AgreementResponder>provider2</wsag:AgreementResponder>
+                        <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+                        <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
+                        <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
+                        <sla:Service>Service2</sla:Service>
+                    </wsag:Context>
+                    <wsag:Terms>
+                        <wsag:All>
+                            <wsag:ServiceDescriptionTerm />
+                            <wsag:ServiceProperties wsag:Name="ServiceProperties" wsag:ServiceName="Service2">
+                                <wsag:VariableSet>
+                                    <wsag:Variable wsag:Name="percCPULoad" />
+                                    <wsag:Variable wsag:Name="percDiskUsed" />
+                                    <wsag:Variable wsag:Name="percRAMUsed" />
+                                </wsag:VariableSet>
+                            </wsag:ServiceProperties>
+                            <wsag:GuaranteeTerm wsag:Name="percCPULoad">
+                                <wsag:ServiceScope wsag:ServiceName="Service2">Service2</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percCPULoad</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percCPULoad LT 70"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percDiskUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service2">Service2</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percDiskUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percDiskUsed LT 80"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                            <wsag:GuaranteeTerm wsag:Name="percRAMUsed">
+                                <wsag:ServiceScope wsag:ServiceName="Service2">Service2</wsag:ServiceScope>
+                                <wsag:ServiceLevelObjective>
+                                    <wsag:KPITarget>
+                                        <wsag:KPIName>percRAMUsed</wsag:KPIName>
+                                        <wsag:CustomServiceLevel>{"constraint": "percRAMUsed LT 60"}</wsag:CustomServiceLevel>
+                                    </wsag:KPITarget>
+                                </wsag:ServiceLevelObjective>
+                            </wsag:GuaranteeTerm>
+                        </wsag:All>
+                    </wsag:Terms>
+                </wsag:Agreement>
+            </agreements>
+            
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "agreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                    "name":"Agreement1",
+                    "context":{
+                        "agreementInitiator":"user1@serviceuser.com",
+                        "agreementResponder":"Provider1",
+                        "serviceProvider":"AgreementResponder",
+                        "expirationTime":"0024-03-07T11:08:24CET",
+                        "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                        "service":"Service1"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":"ServiceProperties",
+                                    "serviceName":"Service1",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"percCPULoad",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percDiskUsed",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percRAMUsed",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"percCPULoad",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percCPULoad",
+                                            "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percDiskUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percDiskUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percRAMUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service1",
+                                        "value":"Service1"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percRAMUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "agreementId":"51a3ec44-f755-4ee8-824b-0ce1001e990a",
+                    "name":"WirecloudAgreement70_80_60",
+                    "context":{
+                        "agreementInitiator":"user2@serviceuser.com",
+                        "agreementResponder":"Provider2",
+                        "serviceProvider":"AgreementResponder",
+                        "expirationTime":"0026-05-08T11:09:58CET",
+                        "templateId":"99bea98a-6df4-4ed7-94ef-1067962f130c",
+                        "service":"Service2"
+                    },
+                    "terms":{
+                        "allTerms":{
+                            "serviceDescriptionTerm":{
+                                "name":null,
+                                "serviceName":null
+                            },
+                            "serviceProperties":[
+                                {
+                                    "name":"ServiceProperties",
+                                    "serviceName":"Service2",
+                                    "variableSet":{
+                                        "variables":[
+                                            {
+                                                "name":"percCPULoad",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percDiskUsed",
+                                                "metric":null,
+                                                "location":null
+                                            },
+                                            {
+                                                "name":"percRAMUsed",
+                                                "metric":null,
+                                                "location":null
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "guaranteeTerms":[
+                                {
+                                    "name":"percCPULoad",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percCPULoad",
+                                            "customServiceLevel":"{\"constraint\": \"percCPULoad LT 70\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percDiskUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percDiskUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name":"percRAMUsed",
+                                    "serviceScope":{
+                                        "serviceName":"Service2",
+                                        "value":"Service2"
+                                    },
+                                    "qualifyingCondition":null,
+                                    "businessValueList":null,
+                                    "serviceLevelObjetive":{
+                                        "kpitarget":{
+                                            "kpiName":"percRAMUsed",
+                                            "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 60\"}"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+
 ## Agreement [/agreements/{AgreementId}]
 
 ### Get agreement info [GET]
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -1400,11 +2208,112 @@ This operation allows to get all the active agreements in the SLA Manager Core.
                 </wsag:Terms>
             </wsag:Agreement>
 
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "agreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                "name":"Agreement3",
+                "context":{
+                    "agreementInitiator":"user3@serviceuser.com",
+                    "agreementResponder":"Provider3",
+                    "serviceProvider":"AgreementResponder",
+                    "expirationTime":"0024-03-07T11:08:24CET",
+                    "templateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                    "service":"Service3"
+                },
+                "terms":{
+                    "allTerms":{
+                        "serviceDescriptionTerm":{
+                            "name":null,
+                            "serviceName":null
+                        },
+                        "serviceProperties":[
+                            {
+                                "name":"ServiceProperties",
+                                "serviceName":"Service3",
+                                "variableSet":{
+                                    "variables":[
+                                        {
+                                            "name":"percCPULoad",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percDiskUsed",
+                                            "metric":null,
+                                            "location":null
+                                        },
+                                        {
+                                            "name":"percRAMUsed",
+                                            "metric":null,
+                                            "location":null
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "guaranteeTerms":[
+                            {
+                                "name":"percCPULoad",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percCPULoad",
+                                        "customServiceLevel":"{\"constraint\": \"percCPULoad LT 90\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percDiskUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percDiskUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percDiskUsed LT 80\"}"
+                                    }
+                                }
+                            },
+                            {
+                                "name":"percRAMUsed",
+                                "serviceScope":{
+                                    "serviceName":"Service3",
+                                    "value":"Service3"
+                                },
+                                "qualifyingCondition":null,
+                                "businessValueList":null,
+                                "serviceLevelObjetive":{
+                                    "kpitarget":{
+                                        "kpiName":"percRAMUsed",
+                                        "customServiceLevel":"{\"constraint\": \"percRAMUsed LT 80\"}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+
 + Response 404
 
         Returned when the object is not in the database.
 
 ### Delete agreement [DELETE]
+
++ Parameters
+
+    + AgreementId (string) ... Id of the agreement
 
 + Response 204
 + Response 404
@@ -1414,7 +2323,7 @@ This operation allows to get all the active agreements in the SLA Manager Core.
 + Response 409
 
         Returned when agreements are still associated to the template.
-
+        
 ## Agreement context [/agreements/{AgreementId}/context]
 
 ### Get agreement context [GET]
@@ -1425,7 +2334,7 @@ Only the context from the agreement identified by AgreementId is returned.
 
     + AgreementId (string) - Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -1439,12 +2348,25 @@ Only the context from the agreement identified by AgreementId is returned.
             <?xml version="1.0" encoding="UTF-8"?>
             <wsag:Context xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu">
                 <wsag:AgreementInitiator>user1@serviceuser.com</wsag:AgreementInitiator>
-                <wsag:AgreementResponder>provider1</wsag:AgreementResponder>
+                <wsag:AgreementResponder>Provider1</wsag:AgreementResponder>
                 <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
                 <wsag:ExpirationTime>0024-03-07T11:08:24CET</wsag:ExpirationTime>
                 <wsag:TemplateId>e7efbfc1-3039-44c1-82d5-3d0e04cf2368</wsag:TemplateId>
                 <sla:Service>Service1</sla:Service>
             </wsag:Context>
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "AgreementInitiator":"user1@serviceuser.com",
+                "AgreementResponder":"Provider1",
+                "ServiceProvider":"AgreementResponder",
+                "ExpirationTime":"0024-03-07T11:08:24CET",
+                "TemplateId":"e7efbfc1-3039-44c1-82d5-3d0e04cf2368",
+                "Service":"Service1"
+            }
     
 + Response 404
 
@@ -1456,7 +2378,7 @@ Only the context from the agreement identified by AgreementId is returned.
 
 ## Agreement guarantee terms status [/agreements/{AgreementId}/guaranteestatus]
 
-### Get agreement context [GET]
+### Get agreement guarantee terms status [GET]
 
 Gets the information of the status of the different Guarantee Terms of an agreement.
 
@@ -1464,9 +2386,9 @@ There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
 
 + Parameters
 
-    + AgreementId (string) - Id of the agreement
+    + AgreementId (string) ... Id of the agreement
 
-+ Request (application/xml)
++ Request
 
     + Headers
     
@@ -1483,7 +2405,30 @@ There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
                 <guaranteetermstatus name="percDiskUsed" value="FULFILLED" />
                 <guaranteetermstatus name="percRAMUsed" value="FULFILLED" />
             </guaranteestatus>
+
++ Response 200 (application/json)
+
+    + Body
     
+            {
+                "AgreementId":"87726a36-e570-4482-b3cc-1cb3d8998bb8",
+                "guaranteestatus":"VIOLATED",
+                "guaranteeterms":[
+                    {
+                        "name":"percCPULoad",
+                        "status":"VIOLATED"
+                    },
+                    {
+                        "name":"percDiskUsed",
+                        "status":"FULFILLED"
+                    },
+                    {
+                        "name":"percRAMUsed",
+                        "status":"FULFILLED"
+                    }
+                ]
+            }
+
 + Response 404
 
         Returned when the uuid doesn't exist in the database.
