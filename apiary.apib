@@ -1061,11 +1061,11 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + agreementId (string)(optional) - If specified, search the violations of the agreement with this agreementId.
-    + guaranteeTerm (string)(optional) - If specified, search the violations of the guarantee term with this name.
-    + providerId (string)(optional) - If specified, search the violations raised by this provider.
-    + begin (string)(optional) - If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
-    + end (string)(optional) - If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + agreementId (optional, string) - If specified, search the violations of the agreement with this agreementId.
+    + guaranteeTerm (optional, string) - If specified, search the violations of the guarantee term with this name.
+    + providerId (optional, string) - If specified, search the violations raised by this provider.
+    + begin (optional, string) - If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (optional, string) - If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
 + Request (application/xml)
 
@@ -1144,6 +1144,84 @@ An enforcement job is the entity which starts the enforcement of the agreement g
                 <datetime>2015-07-28T15:09:29CEST</datetime>
                 <actual_value>0.34827652639805917</actual_value>
             </violation>
+            
++ Response 404
+
+        Returned when the uuid doesn't exist in the database.
+
+
+# Group Penalties
+
+## Penalty collection [/penalties{?agreementId}{?guaranteeTerm}{?begin}{?end}]
+
+### Get violations [GET]
+
++ Parameters
+
+    + agreementId (optional, string) ... If specified, search the penalties of the agreement with this agreementId.
+    + guaranteeTerm (optional, string) ... If specified, search the penalties of the guarantee term with this name.
+    + begin (optional, string) ... If specified, set a lower limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (optional, string) ... If specified, set an upper limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <penalties>
+                <penalty xmlns:sla="http://sla.atos.eu" xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement">
+                    <uuid>ec7fd8ec-d917-49a2-ad80-80ff9aa8269c</uuid>
+                    <agreement>22a548ec-122a-4aa1-b4e1-eee7b79c12b5</agreement>
+                    <datetime>2015-01-21T18:42:00CET</datetime>
+                    <definition type="discount" expression="35" unit="%" validity="P1D"/>
+                </penalty>
+                <penalty xmlns:sla="http://sla.atos.eu" xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement">
+                    <uuid>ec7fd8ec-d917-49a2-ad80-80ff9aa8269c</uuid>
+                    <agreement>a5124ad1-d506-48d5-9666-78da4c432dc6</agreement>
+                    <datetime>2015-01-21T18:42:00CET</datetime>
+                    <definition type="discount" expression="40" unit="%" validity="P1D"/>
+                </penalty>
+            </penalties>
+            
++ Response 404
+
+        Returned when erroneous data is provided in the call.
+
+## Penalty [/penalties/{uuid}]
+
+### Get penalty info [GET]
+
+        Retrieves information from a penalty identified by the uuid.
+
++ Parameters
+
+    + uuid (string) ... The uuid of the penalty.
+
++ Request (application/xml)
+
+    + Headers
+    
+            user: basic authentication user
+            password: basic authentication password
+
++ Response 200 (application/xml)
+
+    + Body
+    
+            <?xml version="1.0" encoding="UTF-8"?>
+            <penalty xmlns:sla="http://sla.atos.eu" xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement">
+                <uuid>ec7fd8ec-d917-49a2-ad80-80ff9aa8269c</uuid>
+                <agreement>agreement-a</agreement>
+                <datetime>2015-01-21T18:42:00CET</datetime>
+                <definition type="discount" expression="35" unit="%" validity="P1D"/>
+            </penalty>
             
 + Response 404
 
