@@ -4,7 +4,7 @@
 
 The SLA Framework is an implementation of an SLA system, compliant with WS-Agreement.
 
-To install the platform please refer to the [Installation Manual](sla-core/docs/installation-guide.md)
+To install the platform please refer to the [SLA Core Installation Guide](sla-core/docs/installation-guide.md)
 
 The Atos SLA Framework provides a REST API that allows to perform all the
 activities related to SLA management. If you want to develop an application
@@ -17,5 +17,5 @@ data representation and SLA management workflow. To know more about it,
 please refer to the [WS-Agreement](sla-core/docs/ws-agreement.md) section.
 
 If you want to further develop this component, please read about
-its architecture and how it works internalli in the [Developer Manual](sla-core/docs/developer-guide.md)
+its architecture and how it works internally in the [SLA Core Developer Manual](sla-core/docs/developer-guide.md)
 section.
