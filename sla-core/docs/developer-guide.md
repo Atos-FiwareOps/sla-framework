@@ -46,7 +46,7 @@ Usually, the consumer is the initiator. Although ws-agreement specifies
 AgreementInitiator/Responder as optional, it is recommended to specify them. 
 In case of a multi-provider configuration, the SP MUST be specified.
 
-##Agreement class diagram##
+## Agreement class diagram ##
 
 TODO: Image
 
@@ -55,7 +55,7 @@ ids. Every entity that need identification outside the sla-core will be
 identified by an uuid if the entity is created internally. If the entity 
 is created externally, it is not mandatory to be an uuid, but unique.
 
-###Providers###
+### Providers ###
 
 The Providers API defines the ProvidersRepository and the CRUD operations 
 to be called by the sla module user in the case of a multiprovider environment. 
@@ -110,7 +110,7 @@ The job of each class is the following:
   Used in on-demand execution. The frontend for the receiver can be a REST 
   service, a Message Queue, etc.
 
-###Metrics Retriever###
+### Metrics Retriever ###
 
 It's very likely that the monitoring system is independent from the SLA module.
 For this reason, the ServiceProvider has to implement an adapter in order to 
@@ -274,7 +274,8 @@ So, if a service provider wants to offer policies in their SLA, they have to
 be compliant with this format. The constraint string is still totally domain 
 defined.
 
-###Business rules###
+### Business rules ###
+
 A simple and generic implementation of business rules has been included in the core. Each guarantee term may 
 have a BusinessValueList element where the penalties of not satisfying a guarantee term are defined.
 
@@ -340,11 +341,11 @@ The implementation of these classes should be done in the sla-personalization pr
 that already imports the sla-enforcement, sla-repository and sla-tools, and is included in the war the has to be 
 deployed. The pom.xml should be touched when a library is used that is not initially contemplated.
  
-###Enforcement###
+### Enforcement ###
 
 TODO roman
 
-####Notifications
+#### Notifications
 It is possible to, once results from the enforcement task have been recorded, to notify a class.
 
 The code must be included in the sla-personalization project.  The new clas must implement the 
@@ -368,7 +369,7 @@ the *guaranteeTermEvaluationMap* that has a type of *GuaranteeTermEvaluationResu
 
 The information of the violations and compensations can be retrieved. 
 
-###Parsing###
+### Parsing ###
 
 To implement a new parser, it doesn't matter if it's for and Template, an Agreement, for JSON or XML format, the class 
 must extend from the *eu.atos.sla.parser.IParser*.
@@ -398,7 +399,7 @@ Depending if it is configured in **parser.json** or **parser.xml** the serialize
 will be in json or in xml format.
 
 
-###Build the code###
+### Build the code ###
 To build the source code:
 
 - open a command window
