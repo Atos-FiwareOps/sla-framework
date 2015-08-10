@@ -19,7 +19,7 @@ agreements (both applicable to SLA Templates, Agreement Offers and Agreements). 
 Templates, Agreement Offers and Agreements are defined and described using the 
 [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
-# REST API
+# REST API conventions
 
 The REST interface to the sla-core system has the following conventions:
 
@@ -152,7 +152,7 @@ the name of the provider.
 
 + Parameters
 
-    + uuid (string) ... Id of the provider
+    + uuid (string) - Id of the provider
 
 + Request
 
@@ -189,7 +189,7 @@ the name of the provider.
 
 + Parameters
 
-    + uuid (string) ... Id of the provider
+    + uuid (string) - Id of the provider
 
 + Request
 
@@ -220,8 +220,8 @@ This operations allows to get all the registered providers in the SLA Manager Co
 
 + Parameters
 
-    + serviceIds (optional, array[string]) ... String with coma separated values with the id's of service that is associated to the template.
-    + providerId (optional, string) ... Id of the provider that is offering the template.
+    + serviceIds (optional, array[string]) - String with coma separated values with the id's of service that is associated to the template.
+    + providerId (optional, string) - Id of the provider that is offering the template.
 
 + Request
 
@@ -645,7 +645,7 @@ It might include a TemplateId or not. In case of not beeing included, a uuid wil
 
 + Parameters
 
-    + TemplateId (string) ... Id of the template
+    + TemplateId (string) - Id of the template
 
 + Request
 
@@ -754,7 +754,7 @@ Updates the template identified by TemplateId. The body might include a Template
 
 + Parameters
 
-    + TemplateId (optional, string) ... Id of the template.
+    + TemplateId (optional, string) - Id of the template.
 
 + Request (application/xml)
 
@@ -960,7 +960,7 @@ Updates the template identified by TemplateId. The body might include a Template
 
 + Parameters
 
-    + TemplateId (optional, string) ... Id of the template.
+    + TemplateId (optional, string) - Id of the template.
 
 + Response 204
 + Response 404
@@ -983,10 +983,10 @@ This operation allows to get all the registered agreements in the SLA Manager Co
 
 + Parameters
 
-    + consumerId (optional, string) ... uuid of the consumer
-    + providerId (optional, string) ... uuid of the provider
-    + templateId (optional, string) ... uuid of the template the agreement is based on
-    + active (optional, boolean) ... If true, agreements currently enforced are returned
+    + consumerId (optional, string) - uuid of the consumer
+    + providerId (optional, string) - uuid of the provider
+    + templateId (optional, string) - uuid of the template the agreement is based on
+    + active (optional, boolean) - If true, agreements currently enforced are returned
 
 + Request
 
@@ -1827,8 +1827,8 @@ This operation allows to get all the active agreements in the SLA Manager Core.
 
 + Parameters
 
-    + consumerId (optional, string) ... uuid of the consumer
-    + templateUUID (optional, string) ... uuid of the template the agreement is based on
+    + consumerId (optional, string) - uuid of the consumer
+    + templateUUID (optional, string) - uuid of the template the agreement is based on
 
 + Request
 
@@ -2142,7 +2142,7 @@ This operation allows to get all the active agreements in the SLA Manager Core.
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2311,7 +2311,7 @@ This operation allows to get all the active agreements in the SLA Manager Core.
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Response 204
 + Response 404
@@ -2330,7 +2330,7 @@ Only the context from the agreement identified by AgreementId is returned.
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2384,7 +2384,7 @@ There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2525,7 +2525,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2565,7 +2565,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2596,7 +2596,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + AgreementId (string) ... Id of the agreement
+    + AgreementId (string) - Id of the agreement
 
 + Request
 
@@ -2629,11 +2629,11 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + agreementId (optional, string) ... If specified, search the violations of the agreement with this agreementId.
-    + guaranteeTerm (optional, string) ... If specified, search the violations of the guarantee term with this name.
-    + providerId (optional, string) ... If specified, search the violations raised by this provider.
-    + begin (optional, string) ... If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
-    + end (optional, string) ... If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + agreementId (optional, string) - If specified, search the violations of the agreement with this agreementId.
+    + guaranteeTerm (optional, string) - If specified, search the violations of the guarantee term with this name.
+    + providerId (optional, string) - If specified, search the violations raised by this provider.
+    + begin (optional, string) - If specified, set a lower limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (optional, string) - If specified, set an upper limit of date of violations to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
 + Request
 
@@ -2723,7 +2723,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + uuid (string) ... The uuid of the violation.
+    + uuid (string) - The uuid of the violation.
 
 + Request
 
@@ -2770,14 +2770,14 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 ## Penalty collection [/penalties{?agreementId}{?guaranteeTerm}{?begin}{?end}]
 
-### Get violations [GET]
+### Get penalties [GET]
 
 + Parameters
 
-    + agreementId (optional, string) ... If specified, search the penalties of the agreement with this agreementId.
-    + guaranteeTerm (optional, string) ... If specified, search the penalties of the guarantee term with this name.
-    + begin (optional, string) ... If specified, set a lower limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
-    + end (optional, string) ... If specified, set an upper limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + agreementId (optional, string) - If specified, search the penalties of the agreement with this agreementId.
+    + guaranteeTerm (optional, string) - If specified, search the penalties of the guarantee term with this name.
+    + begin (optional, string) - If specified, set a lower limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
+    + end (optional, string) - If specified, set an upper limit of date of penalties to search. Date format: yyyy-MM-dd'T'HH:mm:ss
 
 + Request
 
@@ -2849,7 +2849,7 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 + Parameters
 
-    + uuid (string) ... The uuid of the penalty.
+    + uuid (string) - The uuid of the penalty.
 
 + Request
 
