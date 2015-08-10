@@ -1,4 +1,4 @@
-# SLA Core Installation Guide #
+# SLA Core Installation Guide
 
 * [Requirements](#requirements)
 * [Installation](#installation)
@@ -10,7 +10,7 @@
 * [Testing](#testing)
 
 
-## <a name="requirements"> Requirements </a> ##
+## <a name="requirements"> Requirements </a>
 
 The requirements to install a working copy of the sla core are:
 
@@ -18,13 +18,13 @@ The requirements to install a working copy of the sla core are:
 * Database to install the database schema for the service: Mysql>=5.0
 * Maven >= 3.0
 
-## <a name="installation"> Installation </a> ##
+## <a name="installation"> Installation </a>
 
 All commands shown here are ready to be executed from the 
 root directory of the project (i.e., the one with the 
 _configuration.properties_ file) 
 
-###1. <a name="download"> Download the project </a> ###
+###1. <a name="download"> Download the project </a>
 
 Clone the project using git from the
 [sla core repository](https://github.com/Atos-FiwareOps/sla-framework.git)
@@ -36,7 +36,7 @@ if developing for a specific project. So, if 0.1.0 version wants to be checked o
 
 	$ git checkout tags/0.1.0
 
-###2. <a name="database"> Creating the mysql database </a> ###
+###2. <a name="database"> Creating the mysql database </a>
 
 From mysql command tool, create a database (with a user with sufficient 
 privileges, as root):
@@ -55,7 +55,7 @@ The SLA Core webapp will create all the needed tables when loaded by first time.
 The names used here are the default values of the sla core. See 
 [configuration](#configuration) to know how to change the values.
 
-###3. <a name="importeclipse"> Importing the code into eclipse </a> ###
+###3. <a name="importeclipse"> Importing the code into eclipse </a>
 
 The core of the Atos SLS Manager has been developed using the Eclipse Java IDE, 
 although others Java editors could be used, here we only provide the 
@@ -75,7 +75,7 @@ After it, from your eclipse you can import the project. Go to
 "import project from file", go to the trunk folder, and you should 
 see the "ATOSSLA" project ready to be imported in your Eclipse. 
 
-## <a name="configuration"> Configuration </a> ##
+## <a name="configuration"> Configuration </a>
 
 The project is made up of five main modules:
 
@@ -138,7 +138,7 @@ If you're creating the database using the command _mvn test exec:java -f sla-rep
 	<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/atossla" />
 	
 
-## <a name="compiling"> Compiling </a> ##
+## <a name="compiling"> Compiling </a>
 	
 	$ mvn install
 	
@@ -149,7 +149,7 @@ If you want to skip tests:
 The result of the command is a war in _sla-service/target_. The war is also copied to
 the directory pointed by _tomcat.directory_ in the _configuration.properties_ file.
 
-## <a name="running"> Running </a> ##
+## <a name="running"> Running </a>
 
 If the war was successfully copied to tomcat.directory, 
 then start your tomcat to run the server.
@@ -179,7 +179,7 @@ F.e., to use a different database configuration:
 	$ export DB_PASSWORD=<secret>
 	$ bin/runserver.sh 
 
-## <a name="testing"> Testing </a> ##
+## <a name="testing"> Testing </a>
 
 Check that everything is working:
 
