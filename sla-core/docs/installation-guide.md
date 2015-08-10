@@ -24,7 +24,7 @@ All commands shown here are ready to be executed from the
 root directory of the project (i.e., the one with the 
 _configuration.properties_ file) 
 
-###1. <a name="download"> Download the project </a>
+### 1. <a name="download"> Download the project </a>
 
 Clone the project using git from the
 [sla core repository](https://github.com/Atos-FiwareOps/sla-framework.git)
@@ -36,7 +36,7 @@ if developing for a specific project. So, if 0.1.0 version wants to be checked o
 
 	$ git checkout tags/0.1.0
 
-###2. <a name="database"> Creating the mysql database </a>
+### 2. <a name="database"> Creating the mysql database </a>
 
 From mysql command tool, create a database (with a user with sufficient 
 privileges, as root):
@@ -55,7 +55,7 @@ The SLA Core webapp will create all the needed tables when loaded by first time.
 The names used here are the default values of the sla core. See 
 [configuration](#configuration) to know how to change the values.
 
-###3. <a name="importeclipse"> Importing the code into eclipse </a>
+### 3. <a name="importeclipse"> Importing the code into eclipse </a>
 
 The core of the Atos SLS Manager has been developed using the Eclipse Java IDE, 
 although others Java editors could be used, here we only provide the 
