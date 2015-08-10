@@ -26,27 +26,15 @@ _configuration.properties_ file)
 
 ###1. <a name="download"> Download the project </a> ###
 
-Download the project using a subversion client from 
-[sla core repository](http://atossla.atosresearch.eu/svn/atossla)
+Clone the project using git from the
+[sla core repository](https://github.com/Atos-FiwareOps/sla-framework.git)
 
-	$ svn co http://atossla.atosresearch.eu/svn/atossla
-	
-The directories follow the standard convention in subversion repositories:
-	
-	atossla/
-		trunk/
-		branches/
-			branch1/
-			...
-		tags/
-			0.0.1/
-			0.0.2/
-			0.1.0/
+	$ git clone https://github.com/Atos-FiwareOps/sla-framework.git
 
 It is recommended to checkout the latest released version 
 if developing for a specific project. So, if 0.1.0 version wants to be checked out:
 
-	$ svn co http://atossla.atosresearch.eu/svn/atossla/tags/0.1.0
+	$ git checkout tags/0.1.0
 
 ###2. <a name="database"> Creating the mysql database </a> ###
 
@@ -62,21 +50,14 @@ Create a user:
 	mysql> CREATE USER atossla@localhost IDENTIFIED BY '_atossla_';
 	mysql> GRANT ALL PRIVILEGES ON atossla.* TO atossla@localhost; -- * optional WITH GRANT OPTION;
 
-From command prompt, create needed tables:
-
-	$ mvn test exec:java -f sla-repository/pom.xml
-	
-Another option to create the database is execute a sql file from the 
-project root directory:
-
-	$ bin/restoreDatabase.sh
+The SLA Core webapp will create all the needed tables when loaded by first time.
 
 The names used here are the default values of the sla core. See 
 [configuration](#configuration) to know how to change the values.
 
 ###3. <a name="importeclipse"> Importing the code into eclipse </a> ###
 
-The core of the ATOSSLA has been developed using the Eclipse Java IDE, 
+The core of the Atos SLS Manager has been developed using the Eclipse Java IDE, 
 although others Java editors could be used, here we only provide the 
 instructions about how to import the code into Eclipse.
 
@@ -120,6 +101,35 @@ Several parameters can be configured through this file.
 1. service.basicsecurity.\* basic security is enabled
    These parameters can be used to set the user name and password to access to the rest services.
 1.   ''parser.*'' different parsers can be implemented for the agreement and template. By default, wsag standard parsers are have been implemented and configured in the file. Also dateformat can be configured.
+
+Another way for creating in an automated manner the configurations properties 
+file is to set some global variables and run the bin/autoconfigure.sh script.
+It is a simple script that takes the values from the exported OS variables, 
+substitutes the proper values in the configuration.properties.sample file and
+creates the configuration.properties file with the declared values. This allows, 
+for example, to automatically configure and deploy the SLA Manager Core in
+continuous integration systems like Jenkins.
+
+More concretely, the variables to be set are:
+
+    sla_tomcat_directory
+    sla_db_password
+    sla_db_host
+    sla_log_slaatos_fullpathFilename
+    sla_log_thirdpartysw_fullpathFilename
+    sla_service_basicsecurity_password
+    sla_enforcement_constraintEvaluator_class
+    sla_enforcement_metricsRetriever_class
+
+As an example, some of the values we set to get the preview version of
+the SLA Core in Fiware to be configured automatcally by Jenkins are:
+
+    sla_tomcat_directory="target\/"
+    sla_db_host=192.168.205.36
+    sla_log_slaatos_fullpathFilename="\/var\/log\/tomcat7\/atosslafile.log"
+    sla_log_thirdpartysw_fullpathFilename="\/var\/log\/tomcat7\/atosslafullfile.log"
+    sla_enforcement_constraintEvaluator_class=eu.atos.xifi.sla.monitoring.OrionConstraintEvaluator
+    sla_enforcement_metricsRetriever_class=eu.atos.xifi.sla.monitoring.OrionMetricsRetriever
 
 If you're creating the database using the command _mvn test exec:java -f sla-repository/pom.xml_ please make sure that you configure properly sla-repository\src\main\resources\META-INF\persistence.xml. Make sure you're setting the username, password and connection url with the proper parameters.
 
@@ -178,4 +188,4 @@ Check that everything is working:
 The actual address depends on the tomcat configuration. 
 The embedded tomcat uses _http://localhost:8080/sla-service/_ as service root url. 
 
-Time to check the User Guide!
+Time to check the [API specification](API.md)!
