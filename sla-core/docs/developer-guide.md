@@ -14,12 +14,10 @@ monitoring systems available:
 * Smart monitoring systems that are able to evaluate the constraints, and 
   raise the appropriate violations
 
-## Conceptual class diagram ##
+## Main classes ##
 
-In the following diagram, it is shown the main entities and terms that are 
-in the spec and the way they are related.
-
-TODO Image
+The following description depicts the main entities and terms
+that are in the spec and the way they are related.
 
 * A Provider offers a Service: a software service, hardware resources, etc.
 * The service is described by ServiceDescriptionTerms with a Domain Specific 
@@ -46,9 +44,7 @@ Usually, the consumer is the initiator. Although ws-agreement specifies
 AgreementInitiator/Responder as optional, it is recommended to specify them. 
 In case of a multi-provider configuration, the SP MUST be specified.
 
-## Agreement class diagram ##
-
-TODO: Image
+## Agreements ##
 
 Every entity is identified internally (to the sla-core) with autoincremented 
 ids. Every entity that need identification outside the sla-core will be 
@@ -266,7 +262,7 @@ CustomServiceLevel, along with the constraint definition. So, it's proposed
 to define the CustomServiceLevel like this:
 
 	{ 
-	  policies: [ { count : 2, interval: 120 }, { count: 2, interval: 3600 ],
+	  policies: [ { count : 2, interval: 120 }, { count: 2, interval: 3600 } ],
 	  constraint: "responsetime LT 100"
 	}
 
@@ -342,8 +338,6 @@ that already imports the sla-enforcement, sla-repository and sla-tools, and is i
 deployed. The pom.xml should be touched when a library is used that is not initially contemplated.
  
 ### Enforcement ###
-
-TODO roman
 
 #### Notifications
 It is possible to, once results from the enforcement task have been recorded, to notify a class.
