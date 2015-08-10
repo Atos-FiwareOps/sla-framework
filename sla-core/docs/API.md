@@ -2,7 +2,7 @@ Note: there is an [Apiary version](http://docs.slamanagercore.apiary.io)
 of this page with a more readable and structured format, as well as a
 mock server to perform some tests at.
 
-# Table of Contents
+# API Spefication
 - [Atos SLA Manager Core](#atos-sla-manager-core)
 - [REST API conventions](#rest-api-conventions)
 - [Providers](#group-providers)
