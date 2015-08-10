@@ -1,6 +1,6 @@
-Note: there is an [Apiary version](http://docs.slamanagercore.apiary.io)
-      of this page with a more readable and structured format, as well
-      as a mock server to perform some tests at.
+        Note: there is an [Apiary version](http://docs.slamanagercore.apiary.io) of this page with a more readable
+              and structured format, as well as a mock server to perform
+              some tests at.
 
 # Table of Contents
 - [Atos SLA Manager Core](#atos-sla-manager-core)
@@ -10,13 +10,13 @@ Note: there is an [Apiary version](http://docs.slamanagercore.apiary.io)
     - [Create a new provider] (#create-a-new-provider-post)
     - [Get provider info] (#get-provider-info-get)
     - [Delete provider] (#delete-provider-delete)
-- [Templates](#Atos SLA Manager Core)
+- [Templates](#group-template)
     - [List all templates] (#list-all-templates-get)
     - [Create a new template] (#create-a-new-template-post)
     - [Get template info] (#get-template-info-get)
     - [Modify an existing template] (#modify-an-existing-template-put)
     - [Delete template] (#delete-template-delete)
-- [Agreements](#Atos SLA Manager Core)
+- [Agreements](#group-agreement)
     - [List all agreements] (#list-all-agreements-get)
     - [Create a new agreement] (#create-a-new-agreement-post)
     - [List all active agreements] (#list-all-active-agreements-get)
@@ -25,15 +25,15 @@ Note: there is an [Apiary version](http://docs.slamanagercore.apiary.io)
     - [Delete agreement] (#delete-agreement-delete)
     - [Get agreement context] (#get-agreement-context-get)
     - [Get agreement guarantee terms status] (#get-agreement-guarantee-terms-status-get)
-- [Enforcement Jobs](#Atos SLA Manager Core)
+- [Enforcement Jobs](#group-enforcement-job)
     - [Get enforcement jobs] (#get-enforcement-jobs-get)
     - [Get enforcement job by agreement] (#get-enforcement-job-by-agreement-get)
     - [Start enforcement job for agreement] (#start-enforcement-job-for-agreement-put)
     - [Stop enforcement job for agreement] (#stop-enforcement-job-for-agreement-put)
-- [Violations](#Atos SLA Manager Core)
+- [Violations](#group-violations)
     - [Get violations] (#get-violations-get)
     - [Get violation info] (#get-violation-info-get)
-- [Penalties](#Atos SLA Manager Core)
+- [Penalties](#group-penalties)
     - [Get penalties] (#get-penalties-get)
     - [Get penalty info] (#get-penalty-info-get)
 
@@ -77,7 +77,7 @@ The REST interface to the sla-core system has the following conventions:
   specified in the content-type header. The return code is 200.
 * If a query has begin and/or end parameters, the following search is done: `begin <= entity date < end`
 
-# Group Provider
+# Group Providers
 
 ## Povider Collection [/providers]
 
@@ -243,7 +243,7 @@ the name of the provider.
 
         Returned when the provider code is being used.
 
-# Group Template
+# Group Templates
 
 The TemplateId matches the TemplateId attribute of wsag:Template element when the template is created. A template is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
@@ -1007,7 +1007,7 @@ Updates the template identified by TemplateId. The body might include a Template
 
         Returned when agreements are still associated to the template.
         
-# Group Agreement
+# Group Agreements
 
 The AgreementId matches the AgreementId attribute of wsag:Agreement element when the agreement is created. An agreement is serialized in XML as defined by [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
@@ -2467,7 +2467,7 @@ There are three available states: NON_DETERMINED, FULFILLED, VIOLATED.
 
         Returned when the uuid doesn't exist in the database.
 
-# Group Enforcement job
+# Group Enforcement jobs
 
 An enforcement job is the entity which starts the enforcement of the agreement guarantee terms. An agreement can be enforced only if an enforcement job, linked with it, has been previously created and started. An enforcement job is automatically created when an agreement is created, so there is no need to create one to start an enforcement.
 
