@@ -3121,11 +3121,11 @@ An enforcement job is the entity which starts the enforcement of the agreement g
 
 ## Advanced topics
 
-The operations performed by this software, follow the guidelines defined
-in the WS-Agreement standard. It describes a recommendation in both the
-data representation and SLA management workflow. To know more about it,
-please refer to the [WS-Agreement](sla-core/docs/ws-agreement.md) section.
+The operations performed by this software, follow the guidelines defined in the
+WS-Agreement standard. It describes a recommendation in both the data
+representation and SLA management workflow. To know more about it, please refer
+to the [WS-Agreement](sla-core/docs/ws-agreement.md) section.
 
-If you want to further develop this component, please read about
-its architecture and how it works internally in the [SLA Core Developer Manual](sla-core/docs/developer-guide.md)
-section.
+If you want to further develop this component, please read about its
+architecture and how it works internally in the
+[SLA Core Developer Manual](sla-core/docs/developer-guide.md) section.
