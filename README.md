@@ -10,7 +10,6 @@ For any feedbacks or bug reports, please use the the github issues tool.
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
 - [Overall description](#overall-description)
 - [Installation](#installation)
     - [Requirements](#requirements)
