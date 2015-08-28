@@ -3128,3 +3128,7 @@ to the [WS-Agreement](sla-core/docs/ws-agreement.md) section.
 If you want to further develop this component, please read about its
 architecture and how it works internally in the
 [SLA Core Developer Manual](sla-core/docs/developer-guide.md) section.
+
+##License##
+
+Licensed under the [Apache License, Version 2.0][http://www.apache.org/licenses/LICENSE-2.0]
