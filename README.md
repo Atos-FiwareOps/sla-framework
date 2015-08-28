@@ -55,6 +55,7 @@ For any feedbacks or bug reports, please use the the github issues tool.
             - [Get penalties] (#get-penalties-get)
             - [Get penalty info] (#get-penalty-info-get)
 - [Advanced topics](#advanced-topics)
+- [License](#license)
 
 
 ## Overall description
@@ -3131,4 +3132,4 @@ architecture and how it works internally in the
 
 ##License##
 
-Licensed under the [Apache License, Version 2.0][http://www.apache.org/licenses/LICENSE-2.0]
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
