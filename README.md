@@ -11,6 +11,7 @@ For any feedbacks or bug reports, please use the the github issues tool.
 ## Table of contents
 
 - [Overall description](#overall-description)
+- [Features implemented](#features-implemented)
 - [Installation](#installation)
     - [Requirements](#requirements)
     - [Installation](#installation)
@@ -76,6 +77,57 @@ agreements (both applicable to SLA Templates, Agreement Offers and Agreements). 
 Templates, Agreement Offers and Agreements are defined and described using the 
 [WS-Agreement schema](http://schemas.ggf.org/graap/2007/03/ws-agreement).
 
+##Features implemented
+
+In this version the support for a language to express temporal monitoring
+restrictions. Thus, a service provider is able to define conditions like, for
+example, an availability of 99% calculated over 24 hours.
+
+That means that, although the monitoring data informs about breaches of some
+KPI conditions, violations only will be raised when the mean of these measurements
+over the specified interval exceeds the defined threshold.
+
+This is possible thanks to the implementation of this feature in the Fiware
+monitoring component. The last version allows to query the monitoring data
+providing the interval we are interested in.
+
+The SLA Manager supports this fature by adding a new data structure in the XML
+representation of the SLA Template/Agreement. For example, if a service provider
+wants to express that an availability of 99% of his service, calculated over 6
+hours, the resulting template will include this in the ServiceLevelObjective
+section in the form of a CustomServiceLevel:
+
+    <wsag:Template xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:TemplateId="11c3e6d7-550c-4882-a419-09ece0c71d15">
+        <wsag:Name>Template2</wsag:Name>
+        <wsag:Context>
+            <wsag:AgreementInitiator>Provider2</wsag:AgreementInitiator>
+            <wsag:ServiceProvider>AgreementInitiator</wsag:ServiceProvider>
+            <wsag:ExpirationTime>0037-01-04T15:08:15CET</wsag:ExpirationTime>
+            <sla:Service>Service2</sla:Service>
+        </wsag:Context>
+        <wsag:Terms>
+            <wsag:All>
+                <wsag:ServiceDescriptionTerm />
+                <wsag:ServiceProperties wsag:ServiceName="Service2">
+                    <wsag:VariableSet>
+                        <wsag:Variable wsag:Name="sysUptime" />
+                    </wsag:VariableSet>
+                </wsag:ServiceProperties>
+                <wsag:GuaranteeTerm wsag:Name="sysUptime">
+                    <wsag:ServiceScope wsag:ServiceName="Service2" />
+                    <wsag:ServiceLevelObjective>
+                        <wsag:KPITarget>
+                            <wsag:KPIName>sysUptime</wsag:KPIName>
+                            <wsag:CustomServiceLevel>
+                                {"policy": "(1 breach, 6 hours)", "constraint": "sysUptime LT 99"}
+                            </wsag:CustomServiceLevel>
+                        </wsag:KPITarget>
+                    </wsag:ServiceLevelObjective>
+                </wsag:GuaranteeTerm>
+            </wsag:All>
+        </wsag:Terms>
+    </wsag:Template>
+    
 ## Installation
 
 ### Requirements
