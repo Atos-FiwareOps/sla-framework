@@ -21,6 +21,7 @@ For any feedbacks or bug reports, please use the the github issues tool.
     - [Configuration](#configuration)
     - [Compiling](#compiling)
     - [Running](#running)
+    - [Installation verification](#installation-verification)
     - [Testing](#testing)
 - [API specification](#api-specification)
     - [REST API conventions](#rest-api-conventions)
@@ -79,9 +80,9 @@ Templates, Agreement Offers and Agreements are defined and described using the
 
 ##Features implemented
 
-In this version the support for a language to express temporal monitoring
-restrictions. Thus, a service provider is able to define conditions like, for
-example, an availability of 99% calculated over 24 hours.
+In this version (v1.1) the support for a language to express temporal
+monitoring restrictions. Thus, a service provider is able to define
+conditions like, for example, an availability of 99% calculated over 24 hours.
 
 That means that, although the monitoring data informs about breaches of some
 KPI conditions, violations only will be raised when the mean of these measurements
@@ -299,16 +300,21 @@ F.e., to use a different database configuration:
 	$ export DB_PASSWORD=<secret>
 	$ bin/runserver.sh 
 
-### Testing
+### Installation verification
 
-Check that everything is working:
+Check that everything is working performing the following HTTP call:
 
 	$ curl http://localhost:8080/sla-service/providers
 
 The actual address depends on the tomcat configuration. 
 The embedded tomcat uses _http://localhost:8080/sla-service/_ as service root url. 
 
-Time to check the [API specification](API.md)!
+### Testing
+
+All the unit tests are run automatically when the project compiles, unless you
+skip them, as stated in the [Compiling](#compiling) section.
+
+You can find the tests for every single project in the _https://twitter.com/gallir/status/646417993119997952src/java/test_ folders.
 
 ## API specification
 
