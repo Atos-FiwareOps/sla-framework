@@ -314,7 +314,7 @@ The embedded tomcat uses _http://localhost:8080/sla-service/_ as service root ur
 All the unit tests are run automatically when the project compiles, unless you
 skip them, as stated in the [Compiling](#compiling) section.
 
-You can find the tests for every single project in the _https://twitter.com/gallir/status/646417993119997952src/java/test_ folders.
+You can find the tests for every single project in the _src/java/test_ folders.
 
 ## API specification
 
