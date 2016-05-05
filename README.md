@@ -1,5 +1,7 @@
 # SLA Framework
 
+[![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
 The SLA Framework is an implementation of an SLA lifecycle manager system, compliant with WS-Agreement. This project is part of [FIWARE](http://www.fiware.org/).
 
 The SLA Framework is a web, multi-platform application that allows to manage the whole lifecycle of service level agreements (from template creation to violation detection). It is a plugin-based decoupled component that can be adapted and exended to work on different platforms. It is an open source project, released under the Apache 2 license.
